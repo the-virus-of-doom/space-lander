@@ -7,6 +7,7 @@ export class Game extends Scene {
     gameText: Phaser.GameObjects.Text;
     lander: Phaser.GameObjects.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
+    platforms: Phaser.Physics.Arcade.StaticGroup;
 
     constructor() {
         super('Game');
@@ -20,13 +21,24 @@ export class Game extends Scene {
         }
 
         this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0x00ff00);
+        this.camera.setBackgroundColor(0xb46017);
 
-        this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
+        // this.background = this.add.image(512, 384, 'background');
+        // this.background.setAlpha(0.5);
+
+        this.platforms = this.physics.add.staticGroup();
+        const ground = this.platforms.create(
+            400,
+            575,
+            'ground'
+        ) as Phaser.Physics.Arcade.Sprite;
+        ground.setScale(2).refreshBody();
+        this.platforms.create(600, 400, 'platform');
+        this.platforms.create(50, 250, 'platform');
+        this.platforms.create(750, 220, 'platform');
 
         this.gameText = this.add
-            .text(512, 384, 'Game Scene', {
+            .text(150, 25, 'Game Scene', {
                 fontFamily: 'Arial Black',
                 fontSize: 38,
                 color: '#ffffff',
@@ -37,7 +49,8 @@ export class Game extends Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
-        this.lander = this.add.sprite(512, 512, 'lander');
+        this.lander = this.add.sprite(200, 400, 'lander');
+        // this.lander.setScale(2);
 
         EventBus.emit('current-scene-ready', this);
     }

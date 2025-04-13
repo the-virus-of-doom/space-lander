@@ -29,6 +29,8 @@ export class Preloader extends Scene {
         this.load.image('logo', 'logo.png');
         this.load.image('star', 'star.png');
 
+        this.load.image('platform', 'platform.png');
+        this.load.image('ground', 'ground.png');
         this.load.image('lander', 'space-lander.png');
     }
 
@@ -37,6 +39,8 @@ export class Preloader extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('MainMenu');
+        // this.scene.start('MainMenu');
+        console.warn('Skipping to Game scene');
+        this.scene.start('Game');
     }
 }

@@ -29,6 +29,7 @@ export class Preloader extends Scene {
         this.load.image('logo', 'logo.png');
         this.load.image('star', 'star.png');
 
+        this.load.image('NASA_background', 'NASA_IotW_Sol01412.jpg');
         this.load.image('platform', 'platform.png');
         this.load.image('ground', 'ground.png');
         this.load.image('lander', 'space-lander.png');

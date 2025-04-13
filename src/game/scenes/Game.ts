@@ -5,9 +5,9 @@ export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
-    lander: Phaser.GameObjects.Sprite;
+    lander: Phaser.Physics.Arcade.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-    platforms: Phaser.Physics.Arcade.StaticGroup;
+    groundObjects: Phaser.Physics.Arcade.StaticGroup;
 
     constructor() {
         super('Game');
@@ -23,20 +23,10 @@ export class Game extends Scene {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor(0xb46017);
 
-        // this.background = this.add.image(512, 384, 'background');
-        // this.background.setAlpha(0.5);
+        this.background = this.add.image(400, 300, 'NASA_background');
+        this.background.setAlpha(0.5);
 
-        this.platforms = this.physics.add.staticGroup();
-        const ground = this.platforms.create(
-            400,
-            575,
-            'ground'
-        ) as Phaser.Physics.Arcade.Sprite;
-        ground.setScale(2).refreshBody();
-        this.platforms.create(600, 400, 'platform');
-        this.platforms.create(50, 250, 'platform');
-        this.platforms.create(750, 220, 'platform');
-
+        // Scene Title
         this.gameText = this.add
             .text(150, 25, 'Game Scene', {
                 fontFamily: 'Arial Black',
@@ -49,8 +39,26 @@ export class Game extends Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
-        this.lander = this.add.sprite(200, 400, 'lander');
-        // this.lander.setScale(2);
+        // Ground Objects
+        this.groundObjects = this.physics.add.staticGroup();
+        const ground = this.groundObjects.create(
+            400,
+            575,
+            'ground'
+        ) as Phaser.Physics.Arcade.Sprite;
+        ground.setScale(2).refreshBody();
+        this.groundObjects.create(600, 400, 'ground');
+        this.groundObjects.create(50, 250, 'ground');
+        this.groundObjects.create(750, 220, 'ground');
+
+        // Lander
+        this.lander = this.physics.add.sprite(200, 400, 'lander');
+        this.lander.setBounce(0.2);
+        this.lander.setCollideWorldBounds(true);
+        this.lander.setScale(2);
+
+        // Physics Collisions
+        this.physics.add.collider(this.lander, this.groundObjects);
 
         EventBus.emit('current-scene-ready', this);
     }
@@ -67,20 +75,24 @@ export class Game extends Scene {
         // temporary implementation
         // TODO: add physics with primary thruster. only directly control rotation.
 
+        // let isLanded = this.lander.body?.touching.down;
+
         // vertical
         if (this.cursorKeys.up.isDown) {
-            this.lander.y -= 1;
-        }
-        if (this.cursorKeys.down.isDown) {
-            this.lander.y += 1;
+            this.lander.setVelocityY(-160);
+        } else if (this.cursorKeys.down.isDown) {
+            this.lander.setVelocityY(160);
+        } else {
+            this.lander.setVelocityY(0);
         }
 
         // horizontal
         if (this.cursorKeys.left.isDown) {
-            this.lander.x -= 1;
-        }
-        if (this.cursorKeys.right.isDown) {
-            this.lander.x += 1;
+            this.lander.setVelocityX(-160);
+        } else if (this.cursorKeys.right.isDown) {
+            this.lander.setVelocityX(160);
+        } else {
+            this.lander.setVelocityX(0);
         }
     }
 }

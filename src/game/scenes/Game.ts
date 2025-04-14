@@ -202,7 +202,7 @@ export class Game extends Scene {
         console.log('GAME OVER!\nReason: ', reason);
 
         // TODO: change this to explode texture
-        this.lander.setTexture('lander');
+        this.lander.setTexture('explode');
 
         setTimeout(() => {
             console.log('Changing Scene to Game Over...');

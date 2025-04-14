@@ -19,6 +19,7 @@
 -   [ ] Lose Scenario
     -   [x] Landing too hard
     -   [ ] Crashing (hit top (or sides?) on collider)
+        -   add secondary collider at top (see photoshop)
     -   [x] Out of Fuel
         -   [x] fail when no fuel and not moving
     -   [ ] add restart level logic
@@ -31,7 +32,7 @@
     -   [x] main thrust
     -   [x] rotate CW
     -   [x] rotate CCW
--   [ ] create explosion sprite
+-   [x] create explosion sprite
 -   [ ] create fuel sprite
 
 ## UI

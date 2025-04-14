@@ -33,6 +33,10 @@
 -   create explosion sprite
 -   create fuel sprite
 
+## UI
+
+-   recenter loading screen and loading bar
+
 ## Level Design
 
 -   Widen Start / End Platforms

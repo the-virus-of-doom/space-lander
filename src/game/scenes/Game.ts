@@ -7,8 +7,8 @@ export class Game extends Scene {
     gameText: Phaser.GameObjects.Text;
     lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-    // groundObjects: Phaser.Physics.Matter.StaticGroup;
-    groundObject: Phaser.Physics.Matter.Sprite;
+    groundObjects: Phaser.Physics.Matter.Image[] = [];
+    ground: Phaser.Physics.Matter.Sprite;
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
 
@@ -43,23 +43,22 @@ export class Game extends Scene {
             .setDepth(100);
 
         // Ground Objects
-        // this.groundObjects = this.physics.add.staticGroup();
-        // const ground = this.groundObjects.create(
-        //     400,
-        //     575,
-        //     'ground'
-        // ) as Phaser.Physics.Matter.Sprite;
-        // ground.setScale(2).refreshBody();
-        // this.groundObjects.create(600, 400, 'ground');
-        // this.groundObjects.create(50, 250, 'ground');
-        // this.groundObjects.create(750, 220, 'ground');
+        // LATER: pass in image settings to a foreach to populate array
+        let groundObject1 = this.matter.add.image(600, 400, 'ground');
+        let groundObject2 = this.matter.add.image(50, 250, 'ground');
+        let groundObject3 = this.matter.add.image(750, 220, 'ground');
+        this.groundObjects.push(groundObject1);
+        this.groundObjects.push(groundObject2);
+        this.groundObjects.push(groundObject3);
+
+        this.groundObjects.forEach((groundObject) => {
+            groundObject.setStatic(true);
+        });
 
         // Ground
-        this.groundObject = this.matter.add.sprite(400, 575, 'ground');
-        this.groundObject.setScale(2);
-        this.groundObject.setStatic(true);
-
-        // TODO: widen platforms
+        this.ground = this.matter.add.sprite(400, 575, 'ground');
+        this.ground.setScale(2);
+        this.ground.setStatic(true);
 
         // Start Platform
         this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');

@@ -5,12 +5,15 @@ export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
+    userInterfaceText: Phaser.GameObjects.Text;
     lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
     groundObjects: Phaser.Physics.Matter.Image[] = [];
     ground: Phaser.Physics.Matter.Sprite;
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
+    fuelAmount: number = 100;
+    isGameOver: boolean = false;
 
     constructor() {
         super('Game');
@@ -41,6 +44,21 @@ export class Game extends Scene {
             })
             .setOrigin(0.5)
             .setDepth(100);
+
+        // User Interface
+        this.userInterfaceText = this.add.text(
+            10,
+            50,
+            `Fuel Remaining: ${this.fuelAmount}`,
+            {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
+                align: 'left',
+            }
+        );
 
         // Ground Objects
         // LATER: pass in image settings to a foreach to populate array
@@ -87,7 +105,11 @@ export class Game extends Scene {
     }
 
     override update(time: number, delta: number): void {
-        this.landerMovementManager();
+        if (!this.isGameOver) {
+            this.landerMovementManager();
+            this.landerExploder();
+            this.updateUI();
+        }
     }
 
     changeScene() {
@@ -103,11 +125,14 @@ export class Game extends Scene {
         let landerRotation = this.lander.rotation;
 
         // thrust
-        if (this.cursorKeys.up.isDown) {
+        if (this.cursorKeys.up.isDown && this.fuelAmount > 0) {
             // apply forces on x and y axis based on angle
             let forceX = landerThrust * Math.sin(landerRotation);
             let forceY = -landerThrust * Math.cos(landerRotation);
             this.lander.applyForce(new Phaser.Math.Vector2(forceX, forceY));
+
+            // burn fuel during thrust
+            this.fuelAmount -= 0.1;
         }
 
         // rotation
@@ -122,5 +147,42 @@ export class Game extends Scene {
                 angularVelocity + landerRotationSpeed
             );
         }
+    }
+
+    landerExploder() {
+        let velocity = this.lander.getVelocity();
+        let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+        speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
+        // console.log('speed: ', speed);
+
+        // LOSE CASE: landed too hard
+
+        // LOSE CASE: crashed
+
+        // LOSE CASE: out of fuel
+        if (this.fuelAmount <= 0) {
+            console.log('Out of Fuel!');
+            // start checking if lander is stationary
+            if (speed <= 0.0) {
+                this.isGameOver = true;
+                console.log('Lander is stopped!');
+                this.gameOver('Out of Fuel!');
+            }
+        }
+    }
+
+    gameOver(reason: string) {
+        console.log('GAME OVER!\nReason: ', reason);
+        setTimeout(() => {
+            console.log('Changing Scene to Game Over...');
+            this.scene.start('GameOver');
+        }, 5000);
+    }
+
+    updateUI() {
+        // update Fuel
+        this.userInterfaceText.setText(
+            `Fuel Remaining: ${this.fuelAmount.toFixed(2)}`
+        );
     }
 }

@@ -17,10 +17,21 @@ const config: Phaser.Types.Core.GameConfig = {
         keyboard: true,
     },
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { x: 0, y: 300 },
-            debug: false,
+        default: 'matter',
+        matter: {
+            gravity: { x: 0, y: 1 },
+            debug: true,
+            setBounds: {
+                x: 0,
+                y: 0,
+                width: 800,
+                height: 600,
+                thickness: 1024,
+                left: true,
+                right: true,
+                top: true,
+                bottom: true,
+            },
         },
     },
     pixelArt: true,

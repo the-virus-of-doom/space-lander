@@ -5,9 +5,12 @@ export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
-    lander: Phaser.Physics.Arcade.Sprite;
+    lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-    groundObjects: Phaser.Physics.Arcade.StaticGroup;
+    // groundObjects: Phaser.Physics.Matter.StaticGroup;
+    groundObject: Phaser.Physics.Matter.Sprite;
+    startPlatform: Phaser.Physics.Matter.Sprite;
+    endPlatform: Phaser.Physics.Matter.Sprite;
 
     constructor() {
         super('Game');
@@ -40,25 +43,42 @@ export class Game extends Scene {
             .setDepth(100);
 
         // Ground Objects
-        this.groundObjects = this.physics.add.staticGroup();
-        const ground = this.groundObjects.create(
-            400,
-            575,
-            'ground'
-        ) as Phaser.Physics.Arcade.Sprite;
-        ground.setScale(2).refreshBody();
-        this.groundObjects.create(600, 400, 'ground');
-        this.groundObjects.create(50, 250, 'ground');
-        this.groundObjects.create(750, 220, 'ground');
+        // this.groundObjects = this.physics.add.staticGroup();
+        // const ground = this.groundObjects.create(
+        //     400,
+        //     575,
+        //     'ground'
+        // ) as Phaser.Physics.Matter.Sprite;
+        // ground.setScale(2).refreshBody();
+        // this.groundObjects.create(600, 400, 'ground');
+        // this.groundObjects.create(50, 250, 'ground');
+        // this.groundObjects.create(750, 220, 'ground');
+
+        // Ground
+        this.groundObject = this.matter.add.sprite(400, 575, 'ground');
+        this.groundObject.setScale(2);
+        this.groundObject.setStatic(true);
+
+        // Start Platform
+        this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
+        this.startPlatform.setScale(2);
+        this.startPlatform.setStatic(true);
+
+        // End Platform
+        this.endPlatform = this.matter.add.sprite(700, 200, 'platformEnd');
+        this.endPlatform.setScale(2);
+        this.endPlatform.setStatic(true);
 
         // Lander
-        this.lander = this.physics.add.sprite(200, 400, 'lander');
+        this.lander = this.matter.add.sprite(100, 450, 'lander');
+        this.lander.setFrictionAir(0.01);
+        this.lander.setMass(1000);
         this.lander.setBounce(0.2);
-        this.lander.setCollideWorldBounds(true);
+        // this.lander.setCollideWorldBounds(true);
         this.lander.setScale(2);
 
         // Physics Collisions
-        this.physics.add.collider(this.lander, this.groundObjects);
+        // this.physics.add.collider(this.lander, this.groundObjects);
 
         EventBus.emit('current-scene-ready', this);
     }
@@ -72,27 +92,32 @@ export class Game extends Scene {
     }
 
     landerMovementManager() {
-        // temporary implementation
-        // TODO: add physics with primary thruster. only directly control rotation.
-
         // let isLanded = this.lander.body?.touching.down;
 
-        // vertical
+        const landerThrust = 2;
+        const landerRotationSpeed = 0.002;
+        let angularVelocity = this.lander.getAngularVelocity();
+        let landerRotation = this.lander.rotation;
+
+        // thrust
         if (this.cursorKeys.up.isDown) {
-            this.lander.setVelocityY(-160);
-        } else if (this.cursorKeys.down.isDown) {
-            this.lander.setVelocityY(160);
-        } else {
-            this.lander.setVelocityY(0);
+            // apply forces on x and y axis based on angle
+            let forceX = landerThrust * Math.sin(landerRotation);
+            let forceY = -landerThrust * Math.cos(landerRotation);
+            this.lander.applyForce(new Phaser.Math.Vector2(forceX, forceY));
         }
 
-        // horizontal
+        // rotation
+        // TODO: implement rotational inertia / momentum
         if (this.cursorKeys.left.isDown) {
-            this.lander.setVelocityX(-160);
-        } else if (this.cursorKeys.right.isDown) {
-            this.lander.setVelocityX(160);
-        } else {
-            this.lander.setVelocityX(0);
+            this.lander.setAngularVelocity(
+                angularVelocity - landerRotationSpeed
+            );
+        }
+        if (this.cursorKeys.right.isDown) {
+            this.lander.setAngularVelocity(
+                angularVelocity + landerRotationSpeed
+            );
         }
     }
 }

@@ -59,6 +59,8 @@ export class Game extends Scene {
         this.groundObject.setScale(2);
         this.groundObject.setStatic(true);
 
+        // TODO: widen platforms
+
         // Start Platform
         this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
         this.startPlatform.setScale(2);
@@ -72,6 +74,8 @@ export class Game extends Scene {
         // Lander
         this.lander = this.matter.add.sprite(100, 450, 'lander');
         this.lander.setFrictionAir(0.01);
+        this.lander.setFriction(0.8);
+        this.lander.setFrictionStatic(1);
         this.lander.setMass(1000);
         this.lander.setBounce(0.2);
         // this.lander.setCollideWorldBounds(true);

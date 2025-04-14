@@ -13,6 +13,7 @@ export class Game extends Scene {
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
     fuelAmount: number = 100;
+    collisionThreshold: number = 8;
     isGameOver: boolean = false;
 
     constructor() {
@@ -73,10 +74,11 @@ export class Game extends Scene {
             groundObject.setStatic(true);
         });
 
-        // Ground
+        // Ground (special Ground Object)
         this.ground = this.matter.add.sprite(400, 575, 'ground');
         this.ground.setScale(2);
         this.ground.setStatic(true);
+        this.groundObjects.push(this.ground);
 
         // Start Platform
         this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
@@ -95,11 +97,12 @@ export class Game extends Scene {
         this.lander.setFrictionStatic(1);
         this.lander.setMass(1000);
         this.lander.setBounce(0.2);
-        // this.lander.setCollideWorldBounds(true);
         this.lander.setScale(2);
 
         // Physics Collisions
-        // this.physics.add.collider(this.lander, this.groundObjects);
+        this.lander.setOnCollideWith(this.groundObjects, (e: any) =>
+            this.onLanderCollide(e)
+        );
 
         EventBus.emit('current-scene-ready', this);
     }
@@ -161,15 +164,26 @@ export class Game extends Scene {
         }
     }
 
+    onLanderCollide(data: any) {
+        // console.log(data);
+        let velocity = this.lander.getVelocity();
+        let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+        speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
+        console.log('Lander speed at collision: ', speed);
+
+        // LOSE CASE: landed too hard
+        if (speed > this.collisionThreshold) {
+            this.isGameOver = true;
+            this.gameOver('Lander smashed to pieces!');
+            return;
+        }
+        // LOSE CASE: crashed (hit sides or top)
+    }
+
     landerExploder() {
         let velocity = this.lander.getVelocity();
         let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
         speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
-        // console.log('speed: ', speed);
-
-        // LOSE CASE: landed too hard
-
-        // LOSE CASE: crashed
 
         // LOSE CASE: out of fuel
         if (this.fuelAmount <= 0) {
@@ -179,12 +193,17 @@ export class Game extends Scene {
                 this.isGameOver = true;
                 console.log('Lander is stopped!');
                 this.gameOver('Out of Fuel!');
+                return;
             }
         }
     }
 
     gameOver(reason: string) {
         console.log('GAME OVER!\nReason: ', reason);
+
+        // TODO: change this to explode texture
+        this.lander.setTexture('lander');
+
         setTimeout(() => {
             console.log('Changing Scene to Game Over...');
             this.scene.start('GameOver');

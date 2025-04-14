@@ -123,6 +123,7 @@ export class Game extends Scene {
         const landerRotationSpeed = 0.002;
         let angularVelocity = this.lander.getAngularVelocity();
         let landerRotation = this.lander.rotation;
+        let shouldThrust = this.cursorKeys.up.isDown && this.fuelAmount > 0;
 
         // thrust
         if (this.cursorKeys.up.isDown && this.fuelAmount > 0) {
@@ -133,6 +134,10 @@ export class Game extends Scene {
 
             // burn fuel during thrust
             this.fuelAmount -= 0.1;
+
+            this.lander.setTexture('lander-thrust');
+        } else {
+            this.lander.setTexture('lander');
         }
 
         // rotation
@@ -141,11 +146,18 @@ export class Game extends Scene {
             this.lander.setAngularVelocity(
                 angularVelocity - landerRotationSpeed
             );
+
+            shouldThrust
+                ? this.lander.setTexture('lander-thrust-CW')
+                : this.lander.setTexture('lander-CW');
         }
         if (this.cursorKeys.right.isDown) {
             this.lander.setAngularVelocity(
                 angularVelocity + landerRotationSpeed
             );
+            shouldThrust
+                ? this.lander.setTexture('lander-thrust-CCW')
+                : this.lander.setTexture('lander-CCW');
         }
     }
 
@@ -176,7 +188,7 @@ export class Game extends Scene {
         setTimeout(() => {
             console.log('Changing Scene to Game Over...');
             this.scene.start('GameOver');
-        }, 5000);
+        }, 3000);
     }
 
     updateUI() {

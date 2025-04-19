@@ -122,7 +122,7 @@ export class Game extends Scene {
     landerMovementManager() {
         // let isLanded = this.lander.body?.touching.down;
 
-        const landerThrust = 2;
+        const landerThrust = 3;
         const landerRotationSpeed = 0.002;
         let angularVelocity = this.lander.getAngularVelocity();
         let landerRotation = this.lander.rotation;

@@ -15,7 +15,8 @@
 -   [x] Implement Fuel
 -   [x] Implement Fuel pickups
 -   [x] Win Scenario
-    -   [ ] add win / next level logic
+    -   [x] add win / next level logic
+    -   [ ] add final win screen
 -   [ ] Lose Scenario
     -   [x] Landing too hard
     -   [ ] Crashing (hit top (or sides?) on collider)
@@ -39,6 +40,7 @@
     -   [ ] fuel pickup
     -   [ ] menu select
     -   [ ] successful landing
+-   [ ] add background music
 
 ## UI
 
@@ -52,3 +54,11 @@
     -   [ ] include arrow in tutorial level
 -   [ ] Tutorial level
 -   [ ] other levels
+
+## API
+
+-   [ ] decide on what API to use
+    -   load levels from server? (own server)
+    -   Mars time of day API? (own server)
+    -   use NASA API for weather data? (NASA)
+-   [ ] implement API

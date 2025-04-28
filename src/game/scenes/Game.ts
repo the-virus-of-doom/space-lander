@@ -203,7 +203,7 @@ export class Game extends Scene {
         if (!this.isGameOver) {
             let speed = this.getSpeed();
             //  TODO: add check for being in endPlatformLights to make sure player is on top of platform
-            if (speed <= 0.0 && data.bodyA.gameObject.name === 'endPlatform') {
+            if (speed <= 0.0 && data.bodyA.gameObject?.name === 'endPlatform') {
                 console.log('Lander is stopped!');
                 this.levelWin();
                 return;

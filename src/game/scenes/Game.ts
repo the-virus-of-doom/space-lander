@@ -187,6 +187,7 @@ export class Game extends Scene {
 
         // LOSE CASE: out of fuel
         if (this.fuelAmount <= 0) {
+            this.fuelAmount = 0;
             console.log('Out of Fuel!');
             // start checking if lander is stationary
             if (speed <= 0.0) {

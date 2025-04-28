@@ -12,10 +12,12 @@ export class Game extends Scene {
     ground: Phaser.Physics.Matter.Sprite;
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
+    endPlatformLights: Phaser.Physics.Matter.Sprite;
     fuelAmount: number = 100;
     fuelPickup: Phaser.Physics.Matter.Sprite;
     collisionThreshold: number = 8;
     isGameOver: boolean = false;
+    currentLevel: number = 0;
 
     constructor() {
         super('Game');
@@ -73,29 +75,45 @@ export class Game extends Scene {
 
         this.groundObjects.forEach((groundObject) => {
             groundObject.setStatic(true);
+            groundObject.setName('ground');
         });
 
         // Ground (special Ground Object)
         this.ground = this.matter.add.sprite(400, 575, 'ground');
         this.ground.setScale(2);
         this.ground.setStatic(true);
+        this.ground.setName('ground');
         this.groundObjects.push(this.ground);
 
         // Start Platform
         this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
         this.startPlatform.setScale(2);
         this.startPlatform.setStatic(true);
+        this.startPlatform.setName('startPlatform');
 
         // End Platform
         this.endPlatform = this.matter.add.sprite(700, 200, 'platformEnd');
         this.endPlatform.setScale(2);
         this.endPlatform.setStatic(true);
+        this.endPlatform.setName('endPlatform');
+
+        // End Platform Lights
+        this.endPlatformLights = this.matter.add.sprite(
+            700,
+            152,
+            'platformLights'
+        );
+        this.endPlatformLights.setScale(2);
+        this.endPlatformLights.setSensor(true);
+        this.endPlatformLights.setStatic(true);
+        this.endPlatformLights.setName('endPlatformLights');
 
         // Fuel pickup
         this.fuelPickup = this.matter.add.sprite(700, 350, 'fuel');
         this.fuelPickup.setScale(2);
         this.fuelPickup.setSensor(true);
         this.fuelPickup.setStatic(true);
+        this.fuelPickup.setName('fuelPickup');
 
         // Lander
         this.lander = this.matter.add.sprite(100, 450, 'lander');
@@ -105,6 +123,7 @@ export class Game extends Scene {
         this.lander.setMass(1000);
         this.lander.setBounce(0.2);
         this.lander.setScale(2);
+        this.lander.setName('lander');
 
         // Physics Collisions
         this.lander.setOnCollideWith(this.groundObjects, (e: any) =>
@@ -113,6 +132,7 @@ export class Game extends Scene {
         this.lander.setOnCollideWith(this.fuelPickup, (e: any) =>
             this.onFuelPickup(e)
         );
+        this.lander.setOnCollideActive((e: any) => this.landingZoneCheck(e));
 
         EventBus.emit('current-scene-ready', this);
     }
@@ -183,10 +203,23 @@ export class Game extends Scene {
         this.fuelAmount += 50;
     }
 
+    landingZoneCheck(data: {
+        bodyA: { gameObject: { name: string } };
+        bodyB: any;
+    }) {
+        if (!this.isGameOver) {
+            let speed = this.getSpeed();
+            //  TODO: add check for being in endPlatformLights to make sure player is on top of platform
+            if (speed <= 0.0 && data.bodyA.gameObject.name === 'endPlatform') {
+                console.log('Lander is stopped!');
+                this.levelWin();
+                return;
+            }
+        }
+    }
+
     onLanderCollide(data: any) {
-        let velocity = this.lander.getVelocity();
-        let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
-        speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
+        let speed = this.getSpeed();
         // console.log('Lander speed at collision: ', speed);
 
         // LOSE CASE: landed too hard
@@ -199,9 +232,7 @@ export class Game extends Scene {
     }
 
     landerExploder() {
-        let velocity = this.lander.getVelocity();
-        let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
-        speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
+        let speed = this.getSpeed();
 
         // LOSE CASE: out of fuel
         if (this.fuelAmount <= 0) {
@@ -217,16 +248,39 @@ export class Game extends Scene {
         }
     }
 
+    getSpeed() {
+        let velocity = this.lander.getVelocity();
+        let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+        speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
+        return speed;
+    }
+
     gameOver(reason: string) {
         console.log('GAME OVER!\nReason: ', reason);
 
-        // TODO: change this to explode texture
         this.lander.setTexture('explode');
 
         setTimeout(() => {
             console.log('Changing Scene to Game Over...');
             this.scene.start('GameOver');
         }, 3000);
+    }
+
+    levelWin() {
+        this.isGameOver = true;
+        console.log('YOU WIN!');
+
+        // TODO: play win sfx here
+
+        setTimeout(() => {
+            console.log('Loading next level...');
+            this.loadLevel(this.currentLevel++);
+        }, 3000);
+    }
+
+    loadLevel(levelNumber: number) {
+        console.error('TODO: add level loading');
+        throw new Error('Method not implemented.');
     }
 
     updateUI() {

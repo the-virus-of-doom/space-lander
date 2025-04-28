@@ -23,9 +23,7 @@
         -   add secondary collider at top (see photoshop)
     -   [x] Out of Fuel
         -   [x] fail when no fuel and not moving
-    -   [ ] add restart level logic
-    -   [ ] do we want global lives?
-        -   [ ] hardcode mode with limited number of lives for entire game?
+    -   [x] add restart level logic
 
 ## Art and Animations
 

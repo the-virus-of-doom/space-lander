@@ -356,7 +356,7 @@ export class Game extends Scene {
             newLevel?.background.y || 300,
             newLevel?.background.assetName || 'NASA_background'
         );
-        this.background.setAlpha(0.5);
+        this.background.setAlpha(0);
 
         // update UI with level name
         this.gameText.text = `${newLevel?.name || 'error loading level name'}`;

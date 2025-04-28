@@ -1,7 +1,6 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Level } from '../level';
-import { platformBrowser } from '@angular/platform-browser';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -11,7 +10,6 @@ export class Game extends Scene {
     lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
     groundObjects: Phaser.Physics.Matter.Image[] = [];
-    // ground: Phaser.Physics.Matter.Sprite; // remove when added to groundObjects
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
     endPlatformLights: Phaser.Physics.Matter.Sprite;
@@ -319,9 +317,7 @@ export class Game extends Scene {
     loadLevel(levelNumber: number) {
         if (!this.levels.at(levelNumber)) {
             // final win screen if no next level
-            throw new Error(
-                `Final Win Screen not implemented\nTried loading level ${levelNumber}`
-            );
+            this.scene.start('Win');
             return;
         }
 
@@ -379,8 +375,6 @@ export class Game extends Scene {
             );
             this.groundObjects.push(groundObject);
         });
-
-        console.log('loadLevel groundObjects: ', this.groundObjects);
 
         this.groundObjects.forEach((groundObject) => {
             groundObject.setStatic(true);

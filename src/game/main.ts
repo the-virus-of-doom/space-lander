@@ -4,6 +4,7 @@ import { Game as MainGame } from './scenes/Game';
 import { MainMenu } from './scenes/MainMenu';
 import { AUTO, Game } from 'phaser';
 import { Preloader } from './scenes/Preloader';
+import { Win } from './scenes/Win';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -35,7 +36,7 @@ const config: Phaser.Types.Core.GameConfig = {
         },
     },
     pixelArt: true,
-    scene: [Boot, Preloader, MainMenu, MainGame, GameOver],
+    scene: [Boot, Preloader, MainMenu, MainGame, GameOver, Win],
 };
 
 const StartGame = (parent: string) => {

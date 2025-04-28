@@ -13,6 +13,7 @@ export class Game extends Scene {
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
     fuelAmount: number = 100;
+    fuelPickup: Phaser.Physics.Matter.Sprite;
     collisionThreshold: number = 8;
     isGameOver: boolean = false;
 
@@ -90,6 +91,12 @@ export class Game extends Scene {
         this.endPlatform.setScale(2);
         this.endPlatform.setStatic(true);
 
+        // Fuel pickup
+        this.fuelPickup = this.matter.add.sprite(700, 350, 'fuel');
+        this.fuelPickup.setScale(2);
+        this.fuelPickup.setSensor(true);
+        this.fuelPickup.setStatic(true);
+
         // Lander
         this.lander = this.matter.add.sprite(100, 450, 'lander');
         this.lander.setFrictionAir(0.01);
@@ -102,6 +109,9 @@ export class Game extends Scene {
         // Physics Collisions
         this.lander.setOnCollideWith(this.groundObjects, (e: any) =>
             this.onLanderCollide(e)
+        );
+        this.lander.setOnCollideWith(this.fuelPickup, (e: any) =>
+            this.onFuelPickup(e)
         );
 
         EventBus.emit('current-scene-ready', this);
@@ -164,12 +174,20 @@ export class Game extends Scene {
         }
     }
 
+    onFuelPickup(data: any) {
+        console.log('refueled!');
+        this.fuelPickup.setActive(false);
+        this.fuelPickup.setVisible(false);
+        this.fuelPickup.setPosition(-100, -100); // go to jail since you won't disable
+        // TODO: play refuel sound?
+        this.fuelAmount += 50;
+    }
+
     onLanderCollide(data: any) {
-        // console.log(data);
         let velocity = this.lander.getVelocity();
         let speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
         speed = Math.round(speed * 1e5) / 1e5; // round to 5 decimal places
-        console.log('Lander speed at collision: ', speed);
+        // console.log('Lander speed at collision: ', speed);
 
         // LOSE CASE: landed too hard
         if (speed > this.collisionThreshold) {

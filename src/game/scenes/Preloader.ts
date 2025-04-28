@@ -49,6 +49,7 @@ export class Preloader extends Scene {
         this.load.image('lander-CW', 'space-lander-CW.png');
         this.load.image('lander-CCW', 'space-lander-CCW.png');
         this.load.image('explode', 'explode.png');
+        this.load.image('fuel', 'fuel.png');
     }
 
     create() {

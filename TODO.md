@@ -13,7 +13,7 @@
 ## Game Design
 
 -   [x] Implement Fuel
--   [ ] Implement Fuel pickups
+-   [x] Implement Fuel pickups
 -   [ ] Win Scenario
     -   [ ] add win / next level logic
 -   [ ] Lose Scenario
@@ -33,7 +33,12 @@
     -   [x] rotate CW
     -   [x] rotate CCW
 -   [x] create explosion sprite
--   [ ] create fuel sprite
+-   [x] create fuel sprite
+-   [ ] add sfx
+    -   [ ] explode
+    -   [ ] fuel pickup
+    -   [ ] menu select
+    -   [ ] successful landing
 
 ## UI
 

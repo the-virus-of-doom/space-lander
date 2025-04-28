@@ -41,8 +41,8 @@
 
 ## Level Design
 
--   [ ] Widen Start / End Platforms
--   [ ] Add regular ground platform
+-   [x] Widen Start / End Platforms
+-   [x] Add regular ground platform
 -   [ ] End Platform Trigger
     -   [ ] include arrow in tutorial level
 -   [ ] Tutorial level

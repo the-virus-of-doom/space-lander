@@ -99,19 +99,16 @@ export class Game extends Scene {
             .setDepth(100);
 
         // User Interface
-        this.userInterfaceText = this.add.text(
-            10,
-            50,
-            `Fuel Remaining: ${this.fuelAmount}`,
-            {
+        this.userInterfaceText = this.add
+            .text(10, 50, `Fuel Remaining: ${this.fuelAmount}`, {
                 fontFamily: 'Arial Black',
                 fontSize: 20,
                 color: '#ffffff',
                 stroke: '#000000',
                 strokeThickness: 6,
                 align: 'left',
-            }
-        );
+            })
+            .setDepth(100);
 
         // Init game objects
         this.initGameObjects();
@@ -266,8 +263,9 @@ export class Game extends Scene {
         // TODO: play win sfx here
 
         setTimeout(() => {
-            console.log('Loading next level...');
-            this.loadLevel(this.currentLevel++);
+            const nextLevel = (this.currentLevel += 1);
+            console.log('Loading next level...', nextLevel);
+            this.loadLevel(nextLevel);
         }, 3000);
     }
 
@@ -321,7 +319,9 @@ export class Game extends Scene {
     loadLevel(levelNumber: number) {
         if (!this.levels.at(levelNumber)) {
             // final win screen if no next level
-            throw new Error('Final Win Screen not implemented');
+            throw new Error(
+                `Final Win Screen not implemented\nTried loading level ${levelNumber}`
+            );
             return;
         }
 
@@ -340,6 +340,7 @@ export class Game extends Scene {
         this.fuelPickup.setPosition(clearX, clearY);
 
         this.groundObjects.forEach((platform) => platform.destroy());
+        this.groundObjects.length = 0;
 
         // reset game state
         this.fuelAmount = newLevel?.fuelPickup.startAmount || 100;
@@ -406,6 +407,7 @@ export class Game extends Scene {
             newLevel?.startPlatform.x || errorPos,
             (newLevel?.startPlatform.y || errorPos) - 50
         );
+        this.lander.setAngle(0);
 
         // set fuel position
         this.fuelPickup.setPosition(

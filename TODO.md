@@ -14,7 +14,7 @@
 
 -   [x] Implement Fuel
 -   [x] Implement Fuel pickups
--   [ ] Win Scenario
+-   [x] Win Scenario
     -   [ ] add win / next level logic
 -   [ ] Lose Scenario
     -   [x] Landing too hard
@@ -48,7 +48,7 @@
 
 -   [x] Widen Start / End Platforms
 -   [x] Add regular ground platform
--   [ ] End Platform Trigger
+-   [x] End Platform Trigger
     -   [ ] include arrow in tutorial level
 -   [ ] Tutorial level
 -   [ ] other levels

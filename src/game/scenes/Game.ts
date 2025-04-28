@@ -11,7 +11,7 @@ export class Game extends Scene {
     lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
     groundObjects: Phaser.Physics.Matter.Image[] = [];
-    ground: Phaser.Physics.Matter.Sprite; // remove when added to groundObjects
+    // ground: Phaser.Physics.Matter.Sprite; // remove when added to groundObjects
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
     endPlatformLights: Phaser.Physics.Matter.Sprite;
@@ -28,7 +28,6 @@ export class Game extends Scene {
                 x: 400,
                 y: 300,
                 assetName: 'NASA_background',
-                alpha: 0.5,
                 backgroundColor: 0xb46017,
             },
             startPlatform: {
@@ -40,8 +39,8 @@ export class Game extends Scene {
                 y: 200,
             },
             fuelPickup: {
-                x: 0,
-                y: 0,
+                x: 700,
+                y: 400,
                 startAmount: 100,
             },
             ground: {
@@ -88,7 +87,7 @@ export class Game extends Scene {
 
         // Scene Title
         this.gameText = this.add
-            .text(150, 25, 'Current Level: ', {
+            .text(150, 25, 'Loading Level...', {
                 fontFamily: 'Arial Black',
                 fontSize: 38,
                 color: '#ffffff',
@@ -116,6 +115,8 @@ export class Game extends Scene {
 
         // Init game objects
         this.initGameObjects();
+
+        this.loadLevel(0);
 
         // Physics Collisions
         this.lander.setOnCollideWith(this.groundObjects, (e: any) =>
@@ -266,44 +267,26 @@ export class Game extends Scene {
 
         setTimeout(() => {
             console.log('Loading next level...');
-            // this.loadLevel(this.currentLevel++);
+            this.loadLevel(this.currentLevel++);
         }, 3000);
     }
 
     initGameObjects() {
-        // Ground Objects
-        let groundObject1 = this.matter.add.image(600, 400, 'ground');
-        let groundObject2 = this.matter.add.image(50, 250, 'ground');
-        let groundObject3 = this.matter.add.image(750, 220, 'ground');
-        this.groundObjects.push(groundObject1);
-        this.groundObjects.push(groundObject2);
-        this.groundObjects.push(groundObject3);
-
-        this.groundObjects.forEach((groundObject) => {
-            groundObject.setStatic(true);
-            groundObject.setName('ground');
-        });
-
-        // Ground (special Ground Object)
-        this.ground = this.matter.add.sprite(400, 575, 'ground');
-        this.ground.setScale(2);
-        this.ground.setStatic(true);
-        this.ground.setName('ground');
-        this.groundObjects.push(this.ground);
-
-        // Start Platform
+        // Start Platform (moved on level load)
         this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
         this.startPlatform.setScale(2);
         this.startPlatform.setStatic(true);
         this.startPlatform.setName('startPlatform');
+        this.startPlatform.setDepth(1);
 
-        // End Platform
+        // End Platform (moved on level load)
         this.endPlatform = this.matter.add.sprite(700, 200, 'platformEnd');
         this.endPlatform.setScale(2);
         this.endPlatform.setStatic(true);
         this.endPlatform.setName('endPlatform');
+        this.endPlatform.setDepth(1);
 
-        // End Platform Lights
+        // End Platform Lights (moved on level load)
         this.endPlatformLights = this.matter.add.sprite(
             700,
             152,
@@ -313,15 +296,17 @@ export class Game extends Scene {
         this.endPlatformLights.setSensor(true);
         this.endPlatformLights.setStatic(true);
         this.endPlatformLights.setName('endPlatformLights');
+        this.endPlatformLights.setDepth(1);
 
-        // Fuel pickup
+        // Fuel pickup (moved on level load)
         this.fuelPickup = this.matter.add.sprite(700, 350, 'fuel');
         this.fuelPickup.setScale(2);
         this.fuelPickup.setSensor(true);
         this.fuelPickup.setStatic(true);
         this.fuelPickup.setName('fuelPickup');
+        this.fuelPickup.setDepth(1);
 
-        // Lander
+        // Lander (moved on level load)
         this.lander = this.matter.add.sprite(100, 450, 'lander');
         this.lander.setFrictionAir(0.01);
         this.lander.setFriction(0.8);
@@ -330,14 +315,17 @@ export class Game extends Scene {
         this.lander.setBounce(0.2);
         this.lander.setScale(2);
         this.lander.setName('lander');
+        this.lander.setDepth(2);
     }
 
     loadLevel(levelNumber: number) {
         if (!this.levels.at(levelNumber)) {
-            // final win screen
+            // final win screen if no next level
             throw new Error('Final Win Screen not implemented');
             return;
         }
+
+        this.currentLevel = levelNumber;
         const newLevel = this.levels.at(levelNumber);
         const clearX = -100;
         const clearY = -100;
@@ -345,7 +333,7 @@ export class Game extends Scene {
 
         // clear positions
         this.lander.setPosition(clearX, clearY);
-        this.ground.setPosition(clearX, clearY);
+        // this.ground.setPosition(clearX, clearY);
         this.startPlatform.setPosition(clearX, clearY);
         this.endPlatform.setPosition(clearX, clearY);
         this.endPlatformLights.setPosition(clearX, clearY);
@@ -355,6 +343,8 @@ export class Game extends Scene {
 
         // reset game state
         this.fuelAmount = newLevel?.fuelPickup.startAmount || 100;
+        this.fuelPickup.setActive(true);
+        this.fuelPickup.setVisible(true);
         this.isGameOver = false; // maybe change this at the end
 
         // set background
@@ -364,7 +354,7 @@ export class Game extends Scene {
             newLevel?.background.y || 300,
             newLevel?.background.assetName || 'NASA_background'
         );
-        this.background.setAlpha(newLevel?.background.alpha || 0.5);
+        this.background.setAlpha(0.5);
 
         // update UI with level name
         this.gameText.text = `${newLevel?.name || 'error loading level name'}`;
@@ -389,6 +379,8 @@ export class Game extends Scene {
             this.groundObjects.push(groundObject);
         });
 
+        console.log('loadLevel groundObjects: ', this.groundObjects);
+
         this.groundObjects.forEach((groundObject) => {
             groundObject.setStatic(true);
             groundObject.setName('ground');
@@ -412,13 +404,13 @@ export class Game extends Scene {
         // set lander position
         this.lander.setPosition(
             newLevel?.startPlatform.x || errorPos,
-            newLevel?.startPlatform.y || errorPos - 50
+            (newLevel?.startPlatform.y || errorPos) - 50
         );
 
         // set fuel position
         this.fuelPickup.setPosition(
             newLevel?.fuelPickup.x || errorPos,
-            newLevel?.fuelPickup.y || errorPos - 50
+            (newLevel?.fuelPickup.y || errorPos) - 50
         );
     }
 

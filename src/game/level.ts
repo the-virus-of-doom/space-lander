@@ -4,7 +4,6 @@ export class Level {
         x: number;
         y: number;
         assetName: string;
-        alpha: number;
         backgroundColor:
             | string
             | number

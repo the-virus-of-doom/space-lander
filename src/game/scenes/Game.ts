@@ -321,6 +321,7 @@ export class Game extends Scene {
     loadLevel(levelNumber: number) {
         if (!this.levels.at(levelNumber)) {
             // final win screen if no next level
+            console.log('No next level found. Loading final win screen.');
             this.scene.start('Win');
             return;
         }

@@ -51,7 +51,7 @@
 -   [x] Widen Start / End Platforms
 -   [x] Add regular ground platform
 -   [x] End Platform Trigger
-    -   [ ] include arrow in tutorial level
+    -   [ ] only include arrow in tutorial level
 -   [ ] Tutorial level
 -   [ ] other levels
 

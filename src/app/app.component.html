@@ -45,17 +45,31 @@
     <phaser-game />
     <div>
         <div>
-            <button class="button" (click)="changeScene()">Change Scene</button>
+            <button
+                class="button"
+                [disabled]="!canReturnToMenu"
+                (click)="returnToMenu()"
+            >
+                Return to Menu
+            </button>
         </div>
         <div>
-            <button class="button" [disabled]="canMoveSprite" (click)="moveSprite()">Toggle Movement</button>
-        </div>
-        <div class="spritePosition">
-            Sprite Position:
-            <pre>{{ spritePosition | json }}</pre>
+            <button
+                class="button"
+                [disabled]="!canStartGame"
+                (click)="startGame()"
+            >
+                Start Game
+            </button>
         </div>
         <div>
-            <button class="button" (click)="addSprite()">Add New Sprite</button>
+            <button
+                class="button"
+                [disabled]="!canResetLevel"
+                (click)="resetLevel()"
+            >
+                Restart Level
+            </button>
         </div>
     </div>
 </main>

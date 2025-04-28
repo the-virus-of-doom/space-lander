@@ -32,12 +32,7 @@ export class MainMenu extends Scene {
         EventBus.emit('current-scene-ready', this);
     }
 
-    changeScene() {
-        if (this.logoTween) {
-            this.logoTween.stop();
-            this.logoTween = null;
-        }
-
+    startGame() {
         this.scene.start('Game');
     }
 

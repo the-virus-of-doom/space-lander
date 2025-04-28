@@ -45,6 +45,13 @@
 ## UI
 
 -   [x] recenter loading screen and loading bar
+-   [ ] update Angular side with game state buttons
+    -   [ ] restart level
+        -   fix transparency issue on level restart
+    -   [x] return to menu
+        -   disable in menu
+    -   [x] remove demo buttons
+-   [ ] add game over reason to Game Over screen
 
 ## Level Design
 

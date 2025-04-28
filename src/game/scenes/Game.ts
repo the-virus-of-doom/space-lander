@@ -1,5 +1,7 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
+import { Level } from '../level';
+import { platformBrowser } from '@angular/platform-browser';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -9,7 +11,7 @@ export class Game extends Scene {
     lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
     groundObjects: Phaser.Physics.Matter.Image[] = [];
-    ground: Phaser.Physics.Matter.Sprite;
+    ground: Phaser.Physics.Matter.Sprite; // remove when added to groundObjects
     startPlatform: Phaser.Physics.Matter.Sprite;
     endPlatform: Phaser.Physics.Matter.Sprite;
     endPlatformLights: Phaser.Physics.Matter.Sprite;
@@ -18,6 +20,54 @@ export class Game extends Scene {
     collisionThreshold: number = 8;
     isGameOver: boolean = false;
     currentLevel: number = 0;
+
+    levels: Level[] = [
+        {
+            name: 'Tutorial',
+            background: {
+                x: 400,
+                y: 300,
+                assetName: 'NASA_background',
+                alpha: 0.5,
+                backgroundColor: 0xb46017,
+            },
+            startPlatform: {
+                x: 100,
+                y: 500,
+            },
+            endPlatform: {
+                x: 700,
+                y: 200,
+            },
+            fuelPickup: {
+                x: 0,
+                y: 0,
+                startAmount: 100,
+            },
+            ground: {
+                x: 400,
+                y: 575,
+                assetName: 'ground',
+            },
+            groundPlatforms: [
+                {
+                    x: 600,
+                    y: 400,
+                    assetName: 'ground',
+                },
+                {
+                    x: 50,
+                    y: 250,
+                    assetName: 'ground',
+                },
+                {
+                    x: 750,
+                    y: 220,
+                    assetName: 'ground',
+                },
+            ],
+        },
+    ];
 
     constructor() {
         super('Game');
@@ -38,7 +88,7 @@ export class Game extends Scene {
 
         // Scene Title
         this.gameText = this.add
-            .text(150, 25, 'Game Scene', {
+            .text(150, 25, 'Current Level: ', {
                 fontFamily: 'Arial Black',
                 fontSize: 38,
                 color: '#ffffff',
@@ -64,66 +114,8 @@ export class Game extends Scene {
             }
         );
 
-        // Ground Objects
-        // LATER: pass in image settings to a foreach to populate array
-        let groundObject1 = this.matter.add.image(600, 400, 'ground');
-        let groundObject2 = this.matter.add.image(50, 250, 'ground');
-        let groundObject3 = this.matter.add.image(750, 220, 'ground');
-        this.groundObjects.push(groundObject1);
-        this.groundObjects.push(groundObject2);
-        this.groundObjects.push(groundObject3);
-
-        this.groundObjects.forEach((groundObject) => {
-            groundObject.setStatic(true);
-            groundObject.setName('ground');
-        });
-
-        // Ground (special Ground Object)
-        this.ground = this.matter.add.sprite(400, 575, 'ground');
-        this.ground.setScale(2);
-        this.ground.setStatic(true);
-        this.ground.setName('ground');
-        this.groundObjects.push(this.ground);
-
-        // Start Platform
-        this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
-        this.startPlatform.setScale(2);
-        this.startPlatform.setStatic(true);
-        this.startPlatform.setName('startPlatform');
-
-        // End Platform
-        this.endPlatform = this.matter.add.sprite(700, 200, 'platformEnd');
-        this.endPlatform.setScale(2);
-        this.endPlatform.setStatic(true);
-        this.endPlatform.setName('endPlatform');
-
-        // End Platform Lights
-        this.endPlatformLights = this.matter.add.sprite(
-            700,
-            152,
-            'platformLights'
-        );
-        this.endPlatformLights.setScale(2);
-        this.endPlatformLights.setSensor(true);
-        this.endPlatformLights.setStatic(true);
-        this.endPlatformLights.setName('endPlatformLights');
-
-        // Fuel pickup
-        this.fuelPickup = this.matter.add.sprite(700, 350, 'fuel');
-        this.fuelPickup.setScale(2);
-        this.fuelPickup.setSensor(true);
-        this.fuelPickup.setStatic(true);
-        this.fuelPickup.setName('fuelPickup');
-
-        // Lander
-        this.lander = this.matter.add.sprite(100, 450, 'lander');
-        this.lander.setFrictionAir(0.01);
-        this.lander.setFriction(0.8);
-        this.lander.setFrictionStatic(1);
-        this.lander.setMass(1000);
-        this.lander.setBounce(0.2);
-        this.lander.setScale(2);
-        this.lander.setName('lander');
+        // Init game objects
+        this.initGameObjects();
 
         // Physics Collisions
         this.lander.setOnCollideWith(this.groundObjects, (e: any) =>
@@ -274,13 +266,160 @@ export class Game extends Scene {
 
         setTimeout(() => {
             console.log('Loading next level...');
-            this.loadLevel(this.currentLevel++);
+            // this.loadLevel(this.currentLevel++);
         }, 3000);
     }
 
+    initGameObjects() {
+        // Ground Objects
+        let groundObject1 = this.matter.add.image(600, 400, 'ground');
+        let groundObject2 = this.matter.add.image(50, 250, 'ground');
+        let groundObject3 = this.matter.add.image(750, 220, 'ground');
+        this.groundObjects.push(groundObject1);
+        this.groundObjects.push(groundObject2);
+        this.groundObjects.push(groundObject3);
+
+        this.groundObjects.forEach((groundObject) => {
+            groundObject.setStatic(true);
+            groundObject.setName('ground');
+        });
+
+        // Ground (special Ground Object)
+        this.ground = this.matter.add.sprite(400, 575, 'ground');
+        this.ground.setScale(2);
+        this.ground.setStatic(true);
+        this.ground.setName('ground');
+        this.groundObjects.push(this.ground);
+
+        // Start Platform
+        this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
+        this.startPlatform.setScale(2);
+        this.startPlatform.setStatic(true);
+        this.startPlatform.setName('startPlatform');
+
+        // End Platform
+        this.endPlatform = this.matter.add.sprite(700, 200, 'platformEnd');
+        this.endPlatform.setScale(2);
+        this.endPlatform.setStatic(true);
+        this.endPlatform.setName('endPlatform');
+
+        // End Platform Lights
+        this.endPlatformLights = this.matter.add.sprite(
+            700,
+            152,
+            'platformLights'
+        );
+        this.endPlatformLights.setScale(2);
+        this.endPlatformLights.setSensor(true);
+        this.endPlatformLights.setStatic(true);
+        this.endPlatformLights.setName('endPlatformLights');
+
+        // Fuel pickup
+        this.fuelPickup = this.matter.add.sprite(700, 350, 'fuel');
+        this.fuelPickup.setScale(2);
+        this.fuelPickup.setSensor(true);
+        this.fuelPickup.setStatic(true);
+        this.fuelPickup.setName('fuelPickup');
+
+        // Lander
+        this.lander = this.matter.add.sprite(100, 450, 'lander');
+        this.lander.setFrictionAir(0.01);
+        this.lander.setFriction(0.8);
+        this.lander.setFrictionStatic(1);
+        this.lander.setMass(1000);
+        this.lander.setBounce(0.2);
+        this.lander.setScale(2);
+        this.lander.setName('lander');
+    }
+
     loadLevel(levelNumber: number) {
-        console.error('TODO: add level loading');
-        throw new Error('Method not implemented.');
+        if (!this.levels.at(levelNumber)) {
+            // final win screen
+            throw new Error('Final Win Screen not implemented');
+            return;
+        }
+        const newLevel = this.levels.at(levelNumber);
+        const clearX = -100;
+        const clearY = -100;
+        const errorPos = 100;
+
+        // clear positions
+        this.lander.setPosition(clearX, clearY);
+        this.ground.setPosition(clearX, clearY);
+        this.startPlatform.setPosition(clearX, clearY);
+        this.endPlatform.setPosition(clearX, clearY);
+        this.endPlatformLights.setPosition(clearX, clearY);
+        this.fuelPickup.setPosition(clearX, clearY);
+
+        this.groundObjects.forEach((platform) => platform.destroy());
+
+        // reset game state
+        this.fuelAmount = newLevel?.fuelPickup.startAmount || 100;
+        this.isGameOver = false; // maybe change this at the end
+
+        // set background
+        this.camera.setBackgroundColor(newLevel?.background.backgroundColor);
+        this.background = this.add.image(
+            newLevel?.background.x || 400,
+            newLevel?.background.y || 300,
+            newLevel?.background.assetName || 'NASA_background'
+        );
+        this.background.setAlpha(newLevel?.background.alpha || 0.5);
+
+        // update UI with level name
+        this.gameText.text = `${newLevel?.name || 'error loading level name'}`;
+
+        // set positions
+
+        // init new ground objects and positions
+        let ground = this.matter.add.image(
+            newLevel?.ground.x || 400,
+            newLevel?.ground.y || 575,
+            newLevel?.ground.assetName || 'ground'
+        );
+        ground.setScale(2);
+        this.groundObjects.push(ground);
+
+        newLevel?.groundPlatforms.forEach((newPlatform) => {
+            let groundObject = this.matter.add.image(
+                newPlatform.x,
+                newPlatform.y,
+                newPlatform.assetName
+            );
+            this.groundObjects.push(groundObject);
+        });
+
+        this.groundObjects.forEach((groundObject) => {
+            groundObject.setStatic(true);
+            groundObject.setName('ground');
+        });
+
+        // set platform positions
+        this.startPlatform.setPosition(
+            newLevel?.startPlatform.x || errorPos,
+            newLevel?.startPlatform.y || errorPos
+        );
+
+        this.endPlatform.setPosition(
+            newLevel?.endPlatform.x || errorPos,
+            newLevel?.endPlatform.y || errorPos
+        );
+        this.endPlatformLights.setPosition(
+            newLevel?.endPlatform.x || errorPos,
+            (newLevel?.endPlatform.y || errorPos) - 48
+        );
+
+        // set lander position
+        this.lander.setPosition(
+            newLevel?.startPlatform.x || errorPos,
+            newLevel?.startPlatform.y || errorPos - 50
+        );
+
+        // set fuel position
+        this.fuelPickup.setPosition(
+            newLevel?.fuelPickup.x || errorPos,
+            newLevel?.fuelPickup.y || errorPos - 50
+        );
     }
 
     updateUI() {

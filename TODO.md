@@ -17,7 +17,7 @@
 -   [x] Win Scenario
     -   [x] add win / next level logic
     -   [x] add final win screen
--   [ ] Lose Scenario
+-   [ ] Lose Scenarios
     -   [x] Landing too hard
     -   [ ] Crashing (hit top (or sides?) on collider)
         -   add secondary collider at top (see photoshop)
@@ -33,6 +33,7 @@
     -   [x] rotate CCW
 -   [x] create explosion sprite
 -   [x] create fuel sprite
+-   [ ] create and add vertical ground sprite
 -   [ ] add sfx
     -   [ ] explode
     -   [ ] fuel pickup
@@ -51,7 +52,7 @@
         -   disable in menu
     -   [x] remove demo buttons
 -   [ ] add game over reason to Game Over screen
--   [ ] store total extra fuel for final win screen
+-   [x] store total extra fuel for final win screen
     -   on win, add remaining fuel to global variable that is displayed on Win screen
 
 ## Level Design
@@ -59,9 +60,13 @@
 -   [x] Widen Start / End Platforms
 -   [x] Add regular ground platform
 -   [x] End Platform Trigger
-    -   [ ] only include arrow in tutorial level
+    -   [ ] only include arrow in tutorial level?
 -   [ ] Tutorial level
 -   [ ] other levels
+    -   [x] Zig-Zag
+    -   [ ] Thread The Needle (horizontal platforms)
+    -   [ ] Flappy Lander (vertical platforms)
+    -   [ ] Over and Under (loop/spiral into cave)
 
 ## API
 

@@ -51,7 +51,7 @@
     -   [x] return to menu
         -   disable in menu
     -   [x] remove demo buttons
--   [ ] add game over reason to Game Over screen
+-   [x] add game over reason to Game Over screen
 -   [x] store total extra fuel for final win screen
     -   on win, add remaining fuel to global variable that is displayed on Win screen
 

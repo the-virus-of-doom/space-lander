@@ -333,6 +333,7 @@ export class Game extends Scene {
 
     gameOver(reason: string) {
         this.debugLog('GAME OVER!\nReason: ', reason);
+        this.registry.set('loseReason', reason);
 
         this.lander.setTexture('explode');
 

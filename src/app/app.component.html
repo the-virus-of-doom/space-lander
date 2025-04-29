@@ -71,5 +71,15 @@
                 Restart Level
             </button>
         </div>
+        <!-- debug only -->
+        <div *ngIf="debug">
+            <button
+                class="button"
+                [disabled]="!canResetLevel"
+                (click)="forceWin()"
+            >
+                Force Level Win
+            </button>
+        </div>
     </div>
 </main>

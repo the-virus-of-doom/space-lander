@@ -19,6 +19,8 @@ export class AppComponent implements AfterViewInit {
     public canResetLevel = true;
     public canStartGame = true;
 
+    public debug = true;
+
     // This is a reference from the PhaserGame component
     @ViewChild(PhaserGame) phaserRef!: PhaserGame;
 
@@ -27,6 +29,14 @@ export class AppComponent implements AfterViewInit {
             this.canReturnToMenu = scene.scene.key !== 'MainMenu';
             this.canStartGame = scene.scene.key === 'MainMenu';
             this.canResetLevel = scene.scene.key === 'Game';
+
+            // show debug options when physics debug is enabled
+            // (or if config exists)
+            if (scene.game.config.physics.matter?.debug) {
+                this.debug = true;
+            } else {
+                this.debug = false;
+            }
         });
     }
 
@@ -48,6 +58,12 @@ export class AppComponent implements AfterViewInit {
         if (this.phaserRef.scene) {
             const scene = this.phaserRef.scene as MainMenu;
             scene.startGame();
+        }
+    }
+    public forceWin() {
+        if (this.phaserRef.scene) {
+            const scene = this.phaserRef.scene as Game;
+            scene.levelWin();
         }
     }
 }

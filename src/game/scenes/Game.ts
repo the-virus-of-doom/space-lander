@@ -21,6 +21,7 @@ export class Game extends Scene {
     collisionThreshold: number = 8;
     isGameOver: boolean = false;
     currentLevel: number = 0;
+    debug: boolean = false;
 
     levels: Level[] = [
         {
@@ -122,6 +123,12 @@ export class Game extends Scene {
             this.cursorKeys = this.input.keyboard.createCursorKeys();
         } else {
             throw new Error('no keyboard input detected');
+        }
+
+        // show debug options when physics debug is enabled
+        // (or if config exists)
+        if (this.game.config.physics.matter?.debug) {
+            this.debug = true;
         }
 
         this.camera = this.cameras.main;
@@ -264,7 +271,7 @@ export class Game extends Scene {
     }
 
     onFuelPickup(data: any) {
-        console.log('refueled!');
+        this.debugLog('refueled!');
         this.fuelPickup.setActive(false);
         this.fuelPickup.setVisible(false);
         this.fuelPickup.setPosition(-100, -100); // go to jail since you won't disable
@@ -280,7 +287,7 @@ export class Game extends Scene {
             let speed = this.getSpeed();
             //  TODO: add check for being in endPlatformLights to make sure player is on top of platform
             if (speed <= 0.0 && data.bodyA.gameObject?.name === 'endPlatform') {
-                console.log('Lander is stopped!');
+                this.debugLog('Lander is stopped!');
                 this.levelWin();
                 return;
             }
@@ -289,7 +296,7 @@ export class Game extends Scene {
 
     onLanderCollide(data: any) {
         let speed = this.getSpeed();
-        // console.log('Lander speed at collision: ', speed);
+        // this.debugLog('Lander speed at collision: ', speed);
 
         // LOSE CASE: landed too hard
         if (speed > this.collisionThreshold) {
@@ -306,11 +313,11 @@ export class Game extends Scene {
         // LOSE CASE: out of fuel
         if (this.fuelAmount <= 0) {
             this.fuelAmount = 0;
-            console.log('Out of Fuel!');
+            this.debugLog('Out of Fuel!');
             // start checking if lander is stationary
             if (speed <= 0.0) {
                 this.isGameOver = true;
-                console.log('Lander is stopped!');
+                this.debugLog('Lander is stopped!');
                 this.gameOver('Out of Fuel!');
                 return;
             }
@@ -325,26 +332,26 @@ export class Game extends Scene {
     }
 
     gameOver(reason: string) {
-        console.log('GAME OVER!\nReason: ', reason);
+        this.debugLog('GAME OVER!\nReason: ', reason);
 
         this.lander.setTexture('explode');
 
         setTimeout(() => {
-            console.log('Changing Scene to Game Over...');
+            this.debugLog('Changing Scene to Game Over...');
             this.scene.start('GameOver');
         }, 3000);
     }
 
     levelWin() {
         this.isGameOver = true;
-        console.log('YOU WIN!');
+        this.debugLog('YOU WIN!');
 
         // TODO: play win sfx here
 
         // update fuel score on win
         this.extraFuel += this.fuelAmount;
         this.registry.set('extraFuel', this.extraFuel);
-        console.log('Total Extra Fuel: ', this.extraFuel.toFixed(2));
+        this.debugLog('Total Extra Fuel: ', this.extraFuel.toFixed(2));
 
         // TODO: display Level Complete text with Extra Fuel
         this.levelCompleteText.text = 'Level Complete!';
@@ -355,7 +362,7 @@ export class Game extends Scene {
 
         setTimeout(() => {
             const nextLevel = (this.currentLevel += 1);
-            console.log('Loading next level...', nextLevel);
+            this.debugLog('Loading next level...', nextLevel);
             this.loadLevel(nextLevel);
         }, 3000);
     }
@@ -410,7 +417,7 @@ export class Game extends Scene {
     loadLevel(levelNumber: number) {
         if (!this.levels.at(levelNumber)) {
             // final win screen if no next level
-            console.log('No next level found. Loading final win screen.');
+            this.debugLog('No next level found. Loading final win screen.');
             this.scene.start('Win');
             return;
         }
@@ -511,5 +518,15 @@ export class Game extends Scene {
         this.userInterfaceText.setText(
             `Fuel Remaining: ${this.fuelAmount.toFixed(2)}`
         );
+    }
+
+    debugLog(message: string, object?: any) {
+        if (this.debug) {
+            if (!!object) {
+                console.log(message, object);
+            } else {
+                console.log(message);
+            }
+        }
     }
 }

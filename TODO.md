@@ -39,6 +39,7 @@
     -   [ ] menu select
     -   [ ] successful landing
 -   [ ] add background music
+-   [ ] create and add menu logo
 
 ## UI
 

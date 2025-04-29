@@ -300,14 +300,13 @@ export class Game extends Scene {
         // update fuel score on win
         this.extraFuel += this.fuelAmount;
         this.registry.set('extraFuel', this.extraFuel);
-        // this.fuelAmount = 0;
-        console.log('Extra Fuel: ', this.extraFuel);
+        console.log('Total Extra Fuel: ', this.extraFuel.toFixed(2));
 
         // TODO: display Level Complete text with Extra Fuel
         this.levelCompleteText.text = 'Level Complete!';
         this.levelCompleteText.setVisible(true);
 
-        this.extraFuelText.text = `Extra Fuel: ${this.extraFuel.toFixed(2)}`;
+        this.extraFuelText.text = `Extra Fuel: ${this.fuelAmount.toFixed(2)}`;
         this.extraFuelText.setVisible(true);
 
         setTimeout(() => {

@@ -137,8 +137,8 @@ export class Game extends Scene {
         this.background = this.add.image(400, 300, 'NASA_background');
         this.background.setAlpha(0.5);
 
-        // set extra fuel to default (should be 0)
-        this.registry.set('extraFuel', this.extraFuel);
+        // set extra fuel to 0
+        this.registry.set('extraFuel', 0);
 
         // Scene Title
         this.gameText = this.add
@@ -354,7 +354,6 @@ export class Game extends Scene {
         this.registry.set('extraFuel', this.extraFuel);
         this.debugLog('Total Extra Fuel: ', this.extraFuel.toFixed(2));
 
-        // TODO: display Level Complete text with Extra Fuel
         this.levelCompleteText.text = 'Level Complete!';
         this.levelCompleteText.setVisible(true);
 
@@ -443,8 +442,11 @@ export class Game extends Scene {
         this.fuelAmount = newLevel?.fuelPickup.startAmount || 100;
         this.fuelPickup.setActive(true);
         this.fuelPickup.setVisible(true);
-        this.levelCompleteText.setVisible(false);
         this.extraFuelText.setVisible(false);
+        this.levelCompleteText.setVisible(false);
+
+        // set extra fuel to stored value to prevent improper persistance
+        this.extraFuel = this.registry.get('extraFuel');
 
         this.isGameOver = false; // maybe change this at the end
 

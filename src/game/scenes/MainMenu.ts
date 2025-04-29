@@ -33,6 +33,9 @@ export class MainMenu extends Scene {
     }
 
     startGame() {
+        // set extra fuel to 0 when starting new game
+        this.registry.set('extraFuel', 0);
+
         this.scene.start('Game');
     }
 

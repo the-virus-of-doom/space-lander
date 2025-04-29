@@ -5,6 +5,8 @@ export class Win extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     winText: Phaser.GameObjects.Text;
+    extraFuel: number;
+    fuelText: Phaser.GameObjects.Text;
 
     constructor() {
         super('Win');
@@ -24,6 +26,20 @@ export class Win extends Scene {
                 color: '#ffffff',
                 stroke: '#000000',
                 strokeThickness: 8,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100);
+
+        this.extraFuel = this.registry.get('extraFuel');
+
+        this.fuelText = this.add
+            .text(400, 300, `Total Extra Fuel: ${this.extraFuel.toFixed(2)}`, {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
                 align: 'center',
             })
             .setOrigin(0.5)

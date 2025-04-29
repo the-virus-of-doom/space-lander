@@ -7,6 +7,8 @@ export class Game extends Scene {
     background: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
     userInterfaceText: Phaser.GameObjects.Text;
+    levelCompleteText: Phaser.GameObjects.Text;
+    extraFuelText: Phaser.GameObjects.Text;
     lander: Phaser.Physics.Matter.Sprite;
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
     groundObjects: Phaser.Physics.Matter.Image[] = [];
@@ -14,6 +16,7 @@ export class Game extends Scene {
     endPlatform: Phaser.Physics.Matter.Sprite;
     endPlatformLights: Phaser.Physics.Matter.Sprite;
     fuelAmount: number = 100;
+    extraFuel: number = 0;
     fuelPickup: Phaser.Physics.Matter.Sprite;
     collisionThreshold: number = 8;
     isGameOver: boolean = false;
@@ -83,6 +86,9 @@ export class Game extends Scene {
         this.background = this.add.image(400, 300, 'NASA_background');
         this.background.setAlpha(0.5);
 
+        // set extra fuel to default (should be 0)
+        this.registry.set('extraFuel', this.extraFuel);
+
         // Scene Title
         this.gameText = this.add
             .text(150, 25, 'Loading Level...', {
@@ -107,6 +113,33 @@ export class Game extends Scene {
                 align: 'left',
             })
             .setDepth(100);
+
+        // Level Complete Text
+        this.levelCompleteText = this.add
+            .text(400, 200, 'Level Complete!', {
+                fontFamily: 'Arial Black',
+                fontSize: 64,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 8,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100)
+            .setVisible(false);
+
+        this.extraFuelText = this.add
+            .text(400, 300, `Extra Fuel: ${this.extraFuel.toFixed(2)}`, {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100)
+            .setVisible(false);
 
         // Init game objects
         this.initGameObjects();
@@ -264,6 +297,19 @@ export class Game extends Scene {
 
         // TODO: play win sfx here
 
+        // update fuel score on win
+        this.extraFuel += this.fuelAmount;
+        this.registry.set('extraFuel', this.extraFuel);
+        // this.fuelAmount = 0;
+        console.log('Extra Fuel: ', this.extraFuel);
+
+        // TODO: display Level Complete text with Extra Fuel
+        this.levelCompleteText.text = 'Level Complete!';
+        this.levelCompleteText.setVisible(true);
+
+        this.extraFuelText.text = `Extra Fuel: ${this.extraFuel.toFixed(2)}`;
+        this.extraFuelText.setVisible(true);
+
         setTimeout(() => {
             const nextLevel = (this.currentLevel += 1);
             console.log('Loading next level...', nextLevel);
@@ -334,7 +380,6 @@ export class Game extends Scene {
 
         // clear positions
         this.lander.setPosition(clearX, clearY);
-        // this.ground.setPosition(clearX, clearY);
         this.startPlatform.setPosition(clearX, clearY);
         this.endPlatform.setPosition(clearX, clearY);
         this.endPlatformLights.setPosition(clearX, clearY);
@@ -347,6 +392,9 @@ export class Game extends Scene {
         this.fuelAmount = newLevel?.fuelPickup.startAmount || 100;
         this.fuelPickup.setActive(true);
         this.fuelPickup.setVisible(true);
+        this.levelCompleteText.setVisible(false);
+        this.extraFuelText.setVisible(false);
+
         this.isGameOver = false; // maybe change this at the end
 
         // set background

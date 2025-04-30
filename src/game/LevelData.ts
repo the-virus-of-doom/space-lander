@@ -1,4 +1,4 @@
-import { Level } from './level';
+import { Level } from './Level';
 
 export const levelData: Level[] = [
     {

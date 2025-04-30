@@ -1,6 +1,6 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
-import { Level } from '../level';
+import { Level } from '../Level';
 import { levelData } from '../LevelData';
 
 export class Game extends Scene {
@@ -24,7 +24,8 @@ export class Game extends Scene {
     currentLevel: number = 0;
     debug: boolean = false;
 
-    levels: Level[] = levelData;
+    // levels: Level[] = levelData;
+    levels: Level[] = [new Level()];
 
     constructor() {
         super('Game');
@@ -339,6 +340,8 @@ export class Game extends Scene {
         const clearX = -100;
         const clearY = -100;
         const errorPos = 100;
+
+        this.debugLog('loading level: ', newLevel?.name);
 
         // clear positions
         this.lander.setPosition(clearX, clearY);

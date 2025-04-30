@@ -46,7 +46,13 @@
                                     "maximumError": "4kb"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/game/main.ts",
+                                    "with": "src/game/main.prod.ts"
+                                }
+                            ]
                         },
                         "development": {
                             "optimization": false,

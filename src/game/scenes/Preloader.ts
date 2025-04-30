@@ -1,11 +1,17 @@
 import { Scene } from 'phaser';
 
 export class Preloader extends Scene {
+    debug: boolean = false;
     constructor() {
         super('Preloader');
     }
 
     init() {
+        // show debug options when physics debug is enabled
+        // (or if config exists)
+        if (this.game.config.physics.matter?.debug) {
+            this.debug = true;
+        }
         //  We loaded this image in our Boot Scene, so we can display it here
         this.add.image(400, 400, 'background');
 
@@ -58,8 +64,11 @@ export class Preloader extends Scene {
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        // this.scene.start('MainMenu');
-        console.warn('Skipping to Game scene');
-        this.scene.start('Game');
+        if (this.debug) {
+            console.warn('Skipping to Game scene');
+            this.scene.start('Game');
+        } else {
+            this.scene.start('MainMenu');
+        }
     }
 }

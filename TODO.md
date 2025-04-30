@@ -20,6 +20,7 @@
     -   [x] Out of Fuel
         -   [x] fail when no fuel and not moving
     -   [x] add restart level logic
+-   [ ] bug - momentum carries over after reset
 
 ## Art and Animations
 
@@ -51,7 +52,7 @@
 -   [x] store total extra fuel for final win screen
     -   on win, add remaining fuel to global variable that is displayed on Win screen
 -   [ ] use new main menu logo
--   [ ] tutorial level text?
+-   [ ] tutorial level text
 
 ## Level Design
 
@@ -88,6 +89,7 @@
     -   [ ] Crashing (hit top (or sides?) on collider)
         -   add secondary collider at top (see photoshop)
     -   [ ] change lander collider to circle on crash
+    -   [ ] add limited lives per run or level
 
 -   [ ] Win Scenario
     -   [ ] Enforce being ON TOP of landing pad

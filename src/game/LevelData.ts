@@ -150,7 +150,7 @@ const threadTheNeedle: Level = {
     ],
 };
 
-const flappyLander = {
+const flappyLander: Level = {
     name: 'Flappy Lander',
     background: {
         x: 400,
@@ -210,7 +210,7 @@ const flappyLander = {
     ],
 };
 
-const zigZagZigZag = {
+const zigZagZigZag: Level = {
     name: 'Zig-Zag Zig-Zag',
     background: {
         x: 400,

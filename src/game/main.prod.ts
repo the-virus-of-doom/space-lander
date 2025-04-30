@@ -10,7 +10,7 @@ import { Win } from './scenes/Win';
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 
 // IMPORTANT: THE ONLY DIFFERENCE SHOULD BE `physics.matter.debug`
-const config: Phaser.Types.Core.GameConfig = {
+export const config: Phaser.Types.Core.GameConfig = {
     type: AUTO,
     width: 800,
     height: 600,

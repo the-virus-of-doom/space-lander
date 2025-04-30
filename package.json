@@ -26,7 +26,9 @@
         "build": "ng build --configuration development --base-href='./'",
         "build:prod": "ng build --configuration production --base-href='./space-lander'",
         "build:vercel": "ng build --configuration production --base-href='./'",
-        "build:clean": "rm -rf dist"
+        "build:clean": "rm -rf dist",
+        "test": "ng test --browsers=ChromeHeadless",
+        "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless"
     },
     "dependencies": {
         "@angular/animations": "^17.2.0",

@@ -211,7 +211,7 @@ const flappyLander: Level = {
 };
 
 const zigZagZigZag: Level = {
-    name: 'Zig-Zag Zig-Zag',
+    name: 'Super Zig-Zag',
     background: {
         x: 400,
         y: 300,

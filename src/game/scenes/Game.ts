@@ -2,6 +2,7 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Level } from '../level';
 import { levelData } from '../LevelData';
+import { NetworkLoader } from '../NetworkLoader';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -23,6 +24,8 @@ export class Game extends Scene {
     isGameOver: boolean = false;
     currentLevel: number = 0;
     debug: boolean = false;
+    networkLoader: NetworkLoader;
+    apiUrl: string = 'https://space-lander-api.deno.dev';
 
     levels: Level[] = levelData;
 
@@ -51,6 +54,9 @@ export class Game extends Scene {
 
         // set extra fuel to 0
         this.registry.set('extraFuel', 0);
+
+        // Init network loader
+        this.networkLoader = new NetworkLoader(this.apiUrl);
 
         // Init Text objects
         this.initUI();
@@ -509,6 +515,10 @@ export class Game extends Scene {
                 },
             ],
         };
+
+        this.networkLoader.loadLevelData().then((response) => {
+            console.log('networkloader:', response);
+        });
 
         this.levels = [testLevel];
     }

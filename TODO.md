@@ -29,7 +29,7 @@
     -   [x] rotate CCW
 -   [x] create explosion sprite
 -   [x] create fuel sprite
--   [ ] create and add vertical ground sprite
+-   [x] create and add vertical ground sprite
 -   [ ] add sfx
     -   [ ] explode
     -   [ ] fuel pickup

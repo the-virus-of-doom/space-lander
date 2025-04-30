@@ -51,6 +51,7 @@
 -   [x] store total extra fuel for final win screen
     -   on win, add remaining fuel to global variable that is displayed on Win screen
 -   [ ] use new main menu logo
+-   [ ] tutorial level text?
 
 ## Level Design
 
@@ -58,7 +59,7 @@
 -   [x] Add regular ground platform
 -   [x] End Platform Trigger
     -   ~~[ ] only include arrow in tutorial level?~~
--   [ ] Tutorial level
+-   [x] Tutorial level
 -   [ ] other levels
     -   [x] Zig-Zag
     -   [ ] Thread The Needle (horizontal platforms)

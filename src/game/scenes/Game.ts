@@ -24,8 +24,7 @@ export class Game extends Scene {
     currentLevel: number = 0;
     debug: boolean = false;
 
-    // levels: Level[] = levelData;
-    levels: Level[] = [new Level()];
+    levels: Level[] = levelData;
 
     constructor() {
         super('Game');
@@ -107,6 +106,12 @@ export class Game extends Scene {
 
         // Init game objects
         this.initGameObjects();
+
+        // DEBUG ONLY. REMOVE WHEN DONE ADDING LEVELS
+        if (this.debug) {
+            console.warn('Injecting Test Level...');
+            this.loadTestLevel();
+        }
 
         this.loadLevel(0);
 
@@ -446,5 +451,54 @@ export class Game extends Scene {
                 console.log(message);
             }
         }
+    }
+
+    loadTestLevel() {
+        let testLevel = {
+            name: 'Test Level',
+            background: {
+                x: 400,
+                y: 300,
+                assetName: 'NASA_background',
+                backgroundColor: 0xb46017,
+            },
+            startPlatform: {
+                x: 100,
+                y: 500,
+            },
+            endPlatform: {
+                x: 700,
+                y: 200,
+            },
+            fuelPickup: {
+                x: 700,
+                y: 400,
+                startAmount: 100,
+            },
+            ground: {
+                x: 400,
+                y: 575,
+                assetName: 'ground',
+            },
+            groundPlatforms: [
+                {
+                    x: 600,
+                    y: 400,
+                    assetName: 'ground',
+                },
+                {
+                    x: 50,
+                    y: 250,
+                    assetName: 'ground',
+                },
+                {
+                    x: 750,
+                    y: 220,
+                    assetName: 'ground',
+                },
+            ],
+        };
+
+        this.levels = [testLevel];
     }
 }

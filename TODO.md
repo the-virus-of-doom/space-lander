@@ -60,11 +60,11 @@
 -   [x] End Platform Trigger
     -   ~~[ ] only include arrow in tutorial level?~~
 -   [x] Tutorial level
--   [ ] other levels
+-   [x] other levels
     -   [x] Zig-Zag
     -   [x] Thread The Needle (horizontal platforms)
-    -   [ ] Flappy Lander (vertical platforms)
-    -   [ ] Over and Under (loop/spiral into cave)
+    -   [x] Flappy Lander (vertical platforms)
+    -   [x] SUPER Zig-Zag
 
 ## API
 

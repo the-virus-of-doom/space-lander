@@ -1,6 +1,6 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
-import { Level } from '../Level';
+import { Level } from '../level';
 import { levelData } from '../LevelData';
 
 export class Game extends Scene {

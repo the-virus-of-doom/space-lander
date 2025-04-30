@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "template-angular": {
+        "space-lander": {
             "projectType": "application",
             "schematics": {},
             "root": "",
@@ -16,7 +16,7 @@
                         "allowedCommonJsDependencies": [
                             "phaser"
                         ],
-                        "outputPath": "dist/template-angular",
+                        "outputPath": "dist/space-lander",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": [
@@ -60,10 +60,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "template-angular:build:production"
+                            "buildTarget": "space-lander:build:production"
                         },
                         "development": {
-                            "buildTarget": "template-angular:build:development"
+                            "buildTarget": "space-lander:build:development"
                         }
                     },
                     "defaultConfiguration": "development",
@@ -74,7 +74,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "buildTarget": "template-angular:build"
+                        "buildTarget": "space-lander:build"
                     }
                 },
                 "test": {
@@ -99,6 +99,6 @@
         }
     },
     "cli": {
-      "analytics": false
+        "analytics": false
     }
 }

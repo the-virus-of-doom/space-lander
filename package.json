@@ -1,7 +1,7 @@
 {
-    "name": "template-angular",
+    "name": "space-lander",
     "version": "1.0.1",
-    "description": "A Phaser 3 project template that demonstrates Angular communication.",
+    "description": "Lunar Lander inspired game made with Phaser.io",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/phaserjs/template-angular.git"
@@ -21,10 +21,10 @@
     ],
     "scripts": {
         "ng": "ng",
-        "dev": "node log dev & ng serve",
-        "build": "node log.js build & ng build --base-href='./'",
-        "dev-nolog": "ng serve",
-        "build-nolog": "ng build --base-href='./'"
+        "dev": "ng serve",
+        "build": "ng build --base-href='./'",
+        "build:prod": "ng build --base-href='./space-lander'",
+        "build:clean": "rm -rf dist"
     },
     "dependencies": {
         "@angular/animations": "^17.2.0",

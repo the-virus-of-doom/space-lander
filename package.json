@@ -24,6 +24,7 @@
         "dev": "ng serve",
         "build": "ng build --base-href='./'",
         "build:prod": "ng build --base-href='./space-lander'",
+        "build:vercel": "ng build --base-href='./'",
         "build:clean": "rm -rf dist"
     },
     "dependencies": {

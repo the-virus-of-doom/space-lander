@@ -22,9 +22,10 @@
     "scripts": {
         "ng": "ng",
         "dev": "ng serve",
-        "build": "ng build --base-href='./'",
-        "build:prod": "ng build --base-href='./space-lander'",
-        "build:vercel": "ng build --base-href='./'",
+        "prod": "ng serve --configuration production",
+        "build": "ng build --configuration development --base-href='./'",
+        "build:prod": "ng build --configuration production --base-href='./space-lander'",
+        "build:vercel": "ng build --configuration production --base-href='./'",
         "build:clean": "rm -rf dist"
     },
     "dependencies": {

@@ -49,6 +49,7 @@ export class Preloader extends Scene {
         this.load.image('platformEnd', 'platform-end.png');
         this.load.image('platformLights', 'platform-lights.png');
         this.load.image('ground', 'ground.png');
+        this.load.image('ground-vertical', 'ground-vertical.png');
         this.load.image('lander', 'space-lander.png');
         this.load.image('lander-thrust', 'space-lander-thrust.png');
         this.load.image('lander-thrust-CW', 'space-lander-thrust-CW.png');

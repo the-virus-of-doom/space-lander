@@ -1,6 +1,7 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
-import { Level } from '../level';
+import { Level } from '../Level';
+import { levelData } from '../LevelData';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -23,96 +24,7 @@ export class Game extends Scene {
     currentLevel: number = 0;
     debug: boolean = false;
 
-    levels: Level[] = [
-        {
-            name: 'Tutorial',
-            background: {
-                x: 400,
-                y: 300,
-                assetName: 'NASA_background',
-                backgroundColor: 0xb46017,
-            },
-            startPlatform: {
-                x: 100,
-                y: 500,
-            },
-            endPlatform: {
-                x: 700,
-                y: 200,
-            },
-            fuelPickup: {
-                x: 700,
-                y: 400,
-                startAmount: 100,
-            },
-            ground: {
-                x: 400,
-                y: 575,
-                assetName: 'ground',
-            },
-            groundPlatforms: [
-                {
-                    x: 600,
-                    y: 400,
-                    assetName: 'ground',
-                },
-                {
-                    x: 50,
-                    y: 250,
-                    assetName: 'ground',
-                },
-                {
-                    x: 750,
-                    y: 220,
-                    assetName: 'ground',
-                },
-            ],
-        },
-        {
-            name: 'Zig-Zag',
-            background: {
-                x: 400,
-                y: 300,
-                assetName: 'NASA_background',
-                backgroundColor: 0xb46017,
-            },
-            startPlatform: {
-                x: 100,
-                y: 550,
-            },
-            endPlatform: {
-                x: 700,
-                y: 230,
-            },
-            fuelPickup: {
-                x: 600,
-                y: 375,
-                startAmount: 100,
-            },
-            ground: {
-                x: 400,
-                y: 575,
-                assetName: 'ground',
-            },
-            groundPlatforms: [
-                {
-                    x: 350,
-                    y: 220,
-                    assetName: 'ground',
-                },
-                {
-                    x: 200,
-                    y: 400,
-                    assetName: 'ground',
-                },
-                {
-                    x: 750,
-                    y: 250,
-                    assetName: 'ground',
-                },
-            ],
-        },
-    ];
+    levels: Level[] = levelData;
 
     constructor() {
         super('Game');
@@ -140,60 +52,18 @@ export class Game extends Scene {
         // set extra fuel to 0
         this.registry.set('extraFuel', 0);
 
-        // Scene Title
-        this.gameText = this.add
-            .text(150, 25, 'Loading Level...', {
-                fontFamily: 'Arial Black',
-                fontSize: 38,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100);
-
-        // User Interface
-        this.userInterfaceText = this.add
-            .text(10, 50, `Fuel Remaining: ${this.fuelAmount}`, {
-                fontFamily: 'Arial Black',
-                fontSize: 20,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 6,
-                align: 'left',
-            })
-            .setDepth(100);
-
-        // Level Complete Text
-        this.levelCompleteText = this.add
-            .text(400, 200, 'Level Complete!', {
-                fontFamily: 'Arial Black',
-                fontSize: 64,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100)
-            .setVisible(false);
-
-        this.extraFuelText = this.add
-            .text(400, 300, `Extra Fuel: ${this.extraFuel.toFixed(2)}`, {
-                fontFamily: 'Arial Black',
-                fontSize: 20,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 6,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100)
-            .setVisible(false);
+        // Init Text objects
+        this.initUI();
 
         // Init game objects
         this.initGameObjects();
+
+        // DEBUG ONLY
+        // TODO: REMOVE WHEN DONE ADDING LEVELS
+        if (this.debug && false) {
+            console.warn('Injecting Test Level...');
+            this.loadTestLevel();
+        }
 
         this.loadLevel(0);
 
@@ -367,6 +237,60 @@ export class Game extends Scene {
         }, 3000);
     }
 
+    initUI() {
+        // Scene Title
+        this.gameText = this.add
+            .text(150, 25, 'Loading Level...', {
+                fontFamily: 'Arial Black',
+                fontSize: 38,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 8,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100);
+
+        // User Interface
+        this.userInterfaceText = this.add
+            .text(10, 50, `Fuel Remaining: ${this.fuelAmount}`, {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
+                align: 'left',
+            })
+            .setDepth(100);
+
+        // Level Complete Text
+        this.levelCompleteText = this.add
+            .text(400, 200, 'Level Complete!', {
+                fontFamily: 'Arial Black',
+                fontSize: 64,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 8,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100)
+            .setVisible(false);
+
+        this.extraFuelText = this.add
+            .text(400, 300, `Extra Fuel: ${this.extraFuel.toFixed(2)}`, {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100)
+            .setVisible(false);
+    }
+
     initGameObjects() {
         // Start Platform (moved on level load)
         this.startPlatform = this.matter.add.sprite(100, 500, 'platformStart');
@@ -427,6 +351,8 @@ export class Game extends Scene {
         const clearX = -100;
         const clearY = -100;
         const errorPos = 100;
+
+        this.debugLog('loading level: ', newLevel?.name);
 
         // clear positions
         this.lander.setPosition(clearX, clearY);
@@ -531,5 +457,54 @@ export class Game extends Scene {
                 console.log(message);
             }
         }
+    }
+
+    loadTestLevel() {
+        let testLevel = {
+            name: 'Test Level',
+            background: {
+                x: 400,
+                y: 300,
+                assetName: 'NASA_background',
+                backgroundColor: 0xb46017,
+            },
+            startPlatform: {
+                x: 100,
+                y: 500,
+            },
+            endPlatform: {
+                x: 700,
+                y: 200,
+            },
+            fuelPickup: {
+                x: 700,
+                y: 400,
+                startAmount: 100,
+            },
+            ground: {
+                x: 400,
+                y: 575,
+                assetName: 'ground',
+            },
+            groundPlatforms: [
+                {
+                    x: 600,
+                    y: 400,
+                    assetName: 'ground',
+                },
+                {
+                    x: 50,
+                    y: 250,
+                    assetName: 'ground',
+                },
+                {
+                    x: 750,
+                    y: 220,
+                    assetName: 'ground',
+                },
+            ],
+        };
+
+        this.levels = [testLevel];
     }
 }

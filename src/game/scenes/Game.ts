@@ -239,7 +239,7 @@ export class Game extends Scene {
     initUI() {
         // Scene Title
         this.gameText = this.add
-            .text(150, 25, 'Loading Level...', {
+            .text(10, 25, 'Loading Level...', {
                 fontFamily: 'Arial Black',
                 fontSize: 38,
                 color: '#ffffff',
@@ -247,7 +247,7 @@ export class Game extends Scene {
                 strokeThickness: 8,
                 align: 'center',
             })
-            .setOrigin(0.5)
+            .setOrigin(0, 0.5)
             .setDepth(100);
 
         // User Interface

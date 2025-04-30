@@ -13,9 +13,9 @@ export class MainMenu extends Scene {
     }
 
     create() {
-        this.background = this.add.image(400, 300, 'background');
+        this.background = this.add.image(400, 300, 'NASA_background');
 
-        this.logo = this.add.image(400, 250, 'logo').setDepth(100);
+        this.logo = this.add.image(400, 200, 'logo').setDepth(100);
 
         this.title = this.add
             .text(400, 350, 'Main Menu', {

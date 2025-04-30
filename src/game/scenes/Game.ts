@@ -60,8 +60,7 @@ export class Game extends Scene {
 
         // DEBUG ONLY
         // TODO: REMOVE WHEN DONE ADDING LEVELS
-        if (this.debug && false) {
-            console.warn('Injecting Test Level...');
+        if (this.debug) {
             this.loadTestLevel();
         }
 
@@ -460,6 +459,12 @@ export class Game extends Scene {
     }
 
     loadTestLevel() {
+        const skipTest = false;
+        if (skipTest) {
+            return;
+        }
+        console.warn('Injecting Test Level...');
+
         let testLevel = {
             name: 'Test Level',
             background: {

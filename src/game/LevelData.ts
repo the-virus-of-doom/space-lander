@@ -210,9 +210,75 @@ const flappyLander = {
     ],
 };
 
+const zigZagZigZag = {
+    name: 'Zig-Zag Zig-Zag',
+    background: {
+        x: 400,
+        y: 300,
+        assetName: 'NASA_background',
+        backgroundColor: 0xb46017,
+    },
+    startPlatform: {
+        x: 300,
+        y: 550,
+    },
+    endPlatform: {
+        x: 500,
+        y: 550,
+    },
+    fuelPickup: {
+        x: 500,
+        y: 150,
+        startAmount: 100,
+    },
+    ground: {
+        x: 400,
+        y: 575,
+        assetName: 'ground',
+    },
+    groundPlatforms: [
+        {
+            x: 400,
+            y: 480,
+            assetName: 'ground-vertical',
+        },
+        {
+            x: 400,
+            y: 352,
+            assetName: 'ground-vertical',
+        },
+        {
+            x: 400,
+            y: 224,
+            assetName: 'ground-vertical',
+        },
+        {
+            x: 400,
+            y: 400,
+            assetName: 'ground',
+        },
+        {
+            x: 400,
+            y: 160,
+            assetName: 'ground',
+        },
+        {
+            x: -100,
+            y: 290,
+            assetName: 'ground',
+        },
+        {
+            x: 900,
+            y: 290,
+            assetName: 'ground',
+        },
+    ],
+};
+
 export const levelData: Level[] = [
     tutorial,
     zigZag,
     threadTheNeedle,
     flappyLander,
+    zigZagZigZag,
 ];

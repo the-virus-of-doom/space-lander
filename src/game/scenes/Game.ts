@@ -58,8 +58,9 @@ export class Game extends Scene {
         // Init game objects
         this.initGameObjects();
 
-        // DEBUG ONLY. REMOVE WHEN DONE ADDING LEVELS
-        if (this.debug) {
+        // DEBUG ONLY
+        // TODO: REMOVE WHEN DONE ADDING LEVELS
+        if (this.debug && false) {
             console.warn('Injecting Test Level...');
             this.loadTestLevel();
         }

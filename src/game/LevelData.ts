@@ -11,15 +11,15 @@ export const levelData: Level[] = [
         },
         startPlatform: {
             x: 100,
-            y: 500,
+            y: 275,
         },
         endPlatform: {
             x: 700,
-            y: 200,
+            y: 540,
         },
         fuelPickup: {
-            x: 700,
-            y: 400,
+            x: 650,
+            y: 150,
             startAmount: 100,
         },
         ground: {
@@ -29,19 +29,19 @@ export const levelData: Level[] = [
         },
         groundPlatforms: [
             {
-                x: 600,
-                y: 400,
+                x: 200,
+                y: 300,
                 assetName: 'ground',
             },
             {
-                x: 50,
-                y: 250,
-                assetName: 'ground',
+                x: 400,
+                y: 375,
+                assetName: 'ground-vertical',
             },
             {
-                x: 750,
-                y: 220,
-                assetName: 'ground',
+                x: 400,
+                y: 500,
+                assetName: 'ground-vertical',
             },
         ],
     },

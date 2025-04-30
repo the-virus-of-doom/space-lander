@@ -62,7 +62,7 @@
 -   [x] Tutorial level
 -   [ ] other levels
     -   [x] Zig-Zag
-    -   [ ] Thread The Needle (horizontal platforms)
+    -   [x] Thread The Needle (horizontal platforms)
     -   [ ] Flappy Lander (vertical platforms)
     -   [ ] Over and Under (loop/spiral into cave)
 

@@ -90,4 +90,64 @@ const zigZag: Level = {
     ],
 };
 
-export const levelData: Level[] = [tutorial, zigZag];
+const threadTheNeedle: Level = {
+    name: 'Thread the Needle',
+    background: {
+        x: 400,
+        y: 300,
+        assetName: 'NASA_background',
+        backgroundColor: 0xb46017,
+    },
+    startPlatform: {
+        x: 100,
+        y: 550,
+    },
+    endPlatform: {
+        x: 700,
+        y: 225,
+    },
+    fuelPickup: {
+        x: 400,
+        y: 325,
+        startAmount: 100,
+    },
+    ground: {
+        x: 400,
+        y: 575,
+        assetName: 'ground',
+    },
+    groundPlatforms: [
+        {
+            x: 140,
+            y: 250,
+            assetName: 'ground',
+        },
+        {
+            x: 660,
+            y: 250,
+            assetName: 'ground',
+        },
+        {
+            x: 510,
+            y: 325,
+            assetName: 'ground-vertical',
+        },
+        {
+            x: 290,
+            y: 325,
+            assetName: 'ground-vertical',
+        },
+        {
+            x: 95,
+            y: 400,
+            assetName: 'ground',
+        },
+        {
+            x: 705,
+            y: 400,
+            assetName: 'ground',
+        },
+    ],
+};
+
+export const levelData: Level[] = [tutorial, zigZag, threadTheNeedle];

@@ -140,57 +140,8 @@ export class Game extends Scene {
         // set extra fuel to 0
         this.registry.set('extraFuel', 0);
 
-        // Scene Title
-        this.gameText = this.add
-            .text(150, 25, 'Loading Level...', {
-                fontFamily: 'Arial Black',
-                fontSize: 38,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100);
-
-        // User Interface
-        this.userInterfaceText = this.add
-            .text(10, 50, `Fuel Remaining: ${this.fuelAmount}`, {
-                fontFamily: 'Arial Black',
-                fontSize: 20,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 6,
-                align: 'left',
-            })
-            .setDepth(100);
-
-        // Level Complete Text
-        this.levelCompleteText = this.add
-            .text(400, 200, 'Level Complete!', {
-                fontFamily: 'Arial Black',
-                fontSize: 64,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100)
-            .setVisible(false);
-
-        this.extraFuelText = this.add
-            .text(400, 300, `Extra Fuel: ${this.extraFuel.toFixed(2)}`, {
-                fontFamily: 'Arial Black',
-                fontSize: 20,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 6,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100)
-            .setVisible(false);
+        // Init Text objects
+        this.initUI();
 
         // Init game objects
         this.initGameObjects();
@@ -365,6 +316,60 @@ export class Game extends Scene {
             this.debugLog('Loading next level...', nextLevel);
             this.loadLevel(nextLevel);
         }, 3000);
+    }
+
+    initUI() {
+        // Scene Title
+        this.gameText = this.add
+            .text(150, 25, 'Loading Level...', {
+                fontFamily: 'Arial Black',
+                fontSize: 38,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 8,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100);
+
+        // User Interface
+        this.userInterfaceText = this.add
+            .text(10, 50, `Fuel Remaining: ${this.fuelAmount}`, {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
+                align: 'left',
+            })
+            .setDepth(100);
+
+        // Level Complete Text
+        this.levelCompleteText = this.add
+            .text(400, 200, 'Level Complete!', {
+                fontFamily: 'Arial Black',
+                fontSize: 64,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 8,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100)
+            .setVisible(false);
+
+        this.extraFuelText = this.add
+            .text(400, 300, `Extra Fuel: ${this.extraFuel.toFixed(2)}`, {
+                fontFamily: 'Arial Black',
+                fontSize: 20,
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 6,
+                align: 'center',
+            })
+            .setOrigin(0.5)
+            .setDepth(100)
+            .setVisible(false);
     }
 
     initGameObjects() {

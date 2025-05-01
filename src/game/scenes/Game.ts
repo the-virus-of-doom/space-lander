@@ -524,7 +524,7 @@ export class Game extends Scene {
         if (!networkLevel) {
             throw new Error('Unable to load remote levels');
         }
-        console.log('network level name: ', networkLevel.name);
+        this.debugLog('network level name: ', networkLevel.name);
         this.levels.push(networkLevel);
         // this.levels = [networkLevel];
     }

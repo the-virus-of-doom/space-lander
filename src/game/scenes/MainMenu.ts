@@ -15,19 +15,7 @@ export class MainMenu extends Scene {
     create() {
         this.background = this.add.image(400, 300, 'NASA_background');
 
-        this.logo = this.add.image(400, 200, 'logo').setDepth(100);
-
-        this.title = this.add
-            .text(400, 350, 'Main Menu', {
-                fontFamily: 'Arial Black',
-                fontSize: 38,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
-            .setOrigin(0.5)
-            .setDepth(100);
+        this.logo = this.add.image(400, 250, 'logo').setDepth(100);
 
         EventBus.emit('current-scene-ready', this);
     }

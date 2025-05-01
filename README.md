@@ -61,6 +61,7 @@ Install Command: `npm install`
 Developed using Phaser's Angular Starter Template, available [here](https://github.com/phaserjs/template-angular).
 
 Mars background image credit: NASA/JPL-Caltech/ASU
+
 Read more about the image [here](https://mars.nasa.gov/mars2020/multimedia/raw-images/image-of-the-week/week-208).
 
 Sound effects generated with [jsfxr](https://sfxr.me/)

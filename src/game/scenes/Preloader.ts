@@ -1,7 +1,11 @@
 import { Scene } from 'phaser';
+import { NetworkLoader } from '../NetworkLoader';
+import { Level } from '../level';
 
 export class Preloader extends Scene {
     debug: boolean = false;
+    networkLoader: NetworkLoader;
+    apiUrl: string = 'https://space-lander-api.deno.dev';
     constructor() {
         super('Preloader');
     }
@@ -35,6 +39,8 @@ export class Preloader extends Scene {
             //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
             bar.width = 4 + 460 * progress;
         });
+
+        this.networkLoader = new NetworkLoader(this.apiUrl);
     }
 
     preload() {
@@ -60,16 +66,22 @@ export class Preloader extends Scene {
         this.load.image('fuel', 'fuel.png');
     }
 
-    create() {
+    async create() {
         //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
         //  For example, you can define global animations here, so we can use them in other scenes.
 
-        //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        if (this.debug) {
-            console.warn('Skipping to Game scene');
-            this.scene.start('Game');
-        } else {
-            this.scene.start('MainMenu');
-        }
+        await this.networkLoader
+            .loadLevelData()
+            .then((networkLevels) => {
+                this.registry.set('networkLevels', networkLevels);
+            })
+            .finally(() => {
+                if (this.debug) {
+                    console.warn('Skipping to Game scene');
+                    this.scene.start('Game');
+                } else {
+                    this.scene.start('MainMenu');
+                }
+            });
     }
 }

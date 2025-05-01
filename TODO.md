@@ -69,11 +69,11 @@
 
 ## API
 
--   [ ] decide on what API to use
+-   [x] decide on what API to use
     -   load levels from server? (own server)
-    -   Mars time of day API? (own server)
-    -   use NASA API for weather data? (NASA)
--   [ ] implement API
+        ~~- Mars time of day API? (own server)~~
+        ~~- use NASA API for weather data? (NASA)~~
+-   [x] implement API
 
 # Post MVP
 

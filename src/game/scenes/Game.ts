@@ -2,6 +2,7 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Level } from '../level';
 import { levelData } from '../LevelData';
+import { NetworkLoader } from '../NetworkLoader';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -30,19 +31,21 @@ export class Game extends Scene {
         super('Game');
     }
 
-    create() {
-        if (this.input.keyboard) {
-            this.cursorKeys = this.input.keyboard.createCursorKeys();
-        } else {
-            throw new Error('no keyboard input detected');
-        }
-
+    async preload() {
         // show debug options when physics debug is enabled
         // (or if config exists)
         if (this.game.config.physics.matter?.debug) {
             this.debug = true;
         }
 
+        if (this.input.keyboard) {
+            this.cursorKeys = this.input.keyboard.createCursorKeys();
+        } else {
+            throw new Error('no keyboard input detected');
+        }
+    }
+
+    create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor(0xb46017);
 
@@ -63,6 +66,9 @@ export class Game extends Scene {
         if (this.debug) {
             this.loadTestLevel();
         }
+
+        // add levels from network
+        this.appendnetworkLevels();
 
         this.loadLevel(0);
 
@@ -459,13 +465,13 @@ export class Game extends Scene {
     }
 
     loadTestLevel() {
-        const skipTest = false;
-        if (skipTest) {
+        const loadTest = false;
+        if (!loadTest) {
             return;
         }
         console.warn('Injecting Test Level...');
 
-        let testLevel = {
+        let testLevel: Level = {
             name: 'Test Level',
             background: {
                 x: 400,
@@ -511,5 +517,17 @@ export class Game extends Scene {
         };
 
         this.levels = [testLevel];
+    }
+
+    appendnetworkLevels() {
+        let networkLevels: Level[] = this.registry.get('networkLevels');
+        if (!networkLevels) {
+            throw new Error('Unable to load remote levels');
+        }
+
+        networkLevels.forEach((level) => {
+            this.debugLog('appending: ', level.name);
+            this.levels.push(level);
+        });
     }
 }

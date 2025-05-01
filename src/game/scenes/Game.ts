@@ -24,8 +24,6 @@ export class Game extends Scene {
     isGameOver: boolean = false;
     currentLevel: number = 0;
     debug: boolean = false;
-    networkLoader: NetworkLoader;
-    apiUrl: string = 'https://space-lander-api.deno.dev';
 
     levels: Level[] = levelData;
 
@@ -33,19 +31,21 @@ export class Game extends Scene {
         super('Game');
     }
 
-    create() {
-        if (this.input.keyboard) {
-            this.cursorKeys = this.input.keyboard.createCursorKeys();
-        } else {
-            throw new Error('no keyboard input detected');
-        }
-
+    async preload() {
         // show debug options when physics debug is enabled
         // (or if config exists)
         if (this.game.config.physics.matter?.debug) {
             this.debug = true;
         }
 
+        if (this.input.keyboard) {
+            this.cursorKeys = this.input.keyboard.createCursorKeys();
+        } else {
+            throw new Error('no keyboard input detected');
+        }
+    }
+
+    create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor(0xb46017);
 
@@ -54,9 +54,6 @@ export class Game extends Scene {
 
         // set extra fuel to 0
         this.registry.set('extraFuel', 0);
-
-        // Init network loader
-        this.networkLoader = new NetworkLoader(this.apiUrl);
 
         // Init Text objects
         this.initUI();
@@ -69,6 +66,9 @@ export class Game extends Scene {
         if (this.debug) {
             this.loadTestLevel();
         }
+
+        // add levels from network
+        this.appendNetworkLevel();
 
         this.loadLevel(0);
 
@@ -465,13 +465,13 @@ export class Game extends Scene {
     }
 
     loadTestLevel() {
-        const skipTest = false;
-        if (skipTest) {
+        const loadTest = false;
+        if (!loadTest) {
             return;
         }
         console.warn('Injecting Test Level...');
 
-        let testLevel = {
+        let testLevel: Level = {
             name: 'Test Level',
             background: {
                 x: 400,
@@ -516,10 +516,16 @@ export class Game extends Scene {
             ],
         };
 
-        this.networkLoader.loadLevelData().then((response) => {
-            console.log('networkloader:', response);
-        });
-
         this.levels = [testLevel];
+    }
+
+    appendNetworkLevel() {
+        let networkLevel: Level = this.registry.get('networkLevel');
+        if (!networkLevel) {
+            throw new Error('Unable to load remote levels');
+        }
+        console.log('network level name: ', networkLevel.name);
+        this.levels.push(networkLevel);
+        // this.levels = [networkLevel];
     }
 }

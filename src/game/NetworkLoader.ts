@@ -8,9 +8,9 @@ export class NetworkLoader {
 
     async loadLevelData() {
         let response = await fetch(this.url).then((response) => {
-            console.log('raw response:, ', response);
-            return response.json;
+            return response.json();
         });
+        // TODO: add validation
         return response as unknown as Level;
     }
 }

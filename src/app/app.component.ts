@@ -15,11 +15,11 @@ import { GameOver } from '../game/scenes/GameOver';
     templateUrl: './app.component.html',
 })
 export class AppComponent implements AfterViewInit {
-    public canReturnToMenu = true;
-    public canResetLevel = true;
+    public canReturnToMenu = false;
+    public canResetLevel = false;
     public canStartGame = true;
 
-    public debug = true;
+    public debug = false;
 
     // This is a reference from the PhaserGame component
     @ViewChild(PhaserGame) phaserRef!: PhaserGame;

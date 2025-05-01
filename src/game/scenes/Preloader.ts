@@ -72,8 +72,8 @@ export class Preloader extends Scene {
 
         await this.networkLoader
             .loadLevelData()
-            .then((networkLevel) => {
-                this.registry.set('networkLevel', networkLevel);
+            .then((networkLevels) => {
+                this.registry.set('networkLevels', networkLevels);
             })
             .finally(() => {
                 if (this.debug) {

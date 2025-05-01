@@ -68,7 +68,7 @@ export class Game extends Scene {
         }
 
         // add levels from network
-        this.appendNetworkLevel();
+        this.appendnetworkLevels();
 
         this.loadLevel(0);
 
@@ -519,13 +519,15 @@ export class Game extends Scene {
         this.levels = [testLevel];
     }
 
-    appendNetworkLevel() {
-        let networkLevel: Level = this.registry.get('networkLevel');
-        if (!networkLevel) {
+    appendnetworkLevels() {
+        let networkLevels: Level[] = this.registry.get('networkLevels');
+        if (!networkLevels) {
             throw new Error('Unable to load remote levels');
         }
-        this.debugLog('network level name: ', networkLevel.name);
-        this.levels.push(networkLevel);
-        // this.levels = [networkLevel];
+
+        networkLevels.forEach((level) => {
+            this.debugLog('appending: ', level.name);
+            this.levels.push(level);
+        });
     }
 }

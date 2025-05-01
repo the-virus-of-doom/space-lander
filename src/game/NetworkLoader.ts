@@ -11,6 +11,6 @@ export class NetworkLoader {
             return response.json();
         });
         // TODO: add validation
-        return response as unknown as Level;
+        return response as unknown as Level[];
     }
 }

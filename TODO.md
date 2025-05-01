@@ -2,11 +2,7 @@
 
 ## Physics
 
--   [ ] fine-tune physics interactions
-    -   [ ] gravity
-    -   [ ] friction
-    -   [ ] thrust
-        -   [ ] rotation speed / force
+-   [ ] bug - momentum carries over after reset
 
 ## Game Design
 
@@ -20,7 +16,6 @@
     -   [x] Out of Fuel
         -   [x] fail when no fuel and not moving
     -   [x] add restart level logic
--   [ ] bug - momentum carries over after reset
 
 ## Art and Animations
 
@@ -37,7 +32,7 @@
     -   [ ] menu select
     -   [ ] successful landing
 -   [ ] add background music
--   [ ] create menu logo
+-   [x] create menu logo
 
 ## UI
 
@@ -51,7 +46,7 @@
 -   [x] add game over reason to Game Over screen
 -   [x] store total extra fuel for final win screen
     -   on win, add remaining fuel to global variable that is displayed on Win screen
--   [ ] use new main menu logo
+-   [x] use new main menu logo
 -   [ ] tutorial level text
 
 ## Level Design
@@ -81,6 +76,11 @@
 
 -   [ ] add rotational inertia
     -   [ ] want to apply rotational force, not set rotational speed
+-   [ ] fine-tune physics interactions
+    -   [ ] gravity
+    -   [ ] friction
+    -   [ ] thrust
+        -   [ ] rotation speed / force
 
 ## Game Design
 

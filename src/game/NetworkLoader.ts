@@ -41,9 +41,14 @@ export class NetworkLoader {
     }
 
     async loadLevelData() {
-        let response: Level[] = await fetch(this.url).then((response) => {
-            return response.json();
-        });
+        let response: Level[] = await fetch(this.url)
+            .then((response) => {
+                return response.json();
+            })
+            .catch(() => {
+                console.error('Unable to load remote Levels');
+                return [];
+            });
 
         let validatedLevels: Level[] = [];
         response.forEach((level) => {
@@ -54,6 +59,6 @@ export class NetworkLoader {
             }
         });
 
-        return validatedLevels as unknown as Level[];
+        return validatedLevels;
     }
 }

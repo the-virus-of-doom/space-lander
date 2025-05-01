@@ -150,7 +150,7 @@ const threadTheNeedle: Level = {
     ],
 };
 
-const flappyLander = {
+const flappyLander: Level = {
     name: 'Flappy Lander',
     background: {
         x: 400,
@@ -210,8 +210,8 @@ const flappyLander = {
     ],
 };
 
-const zigZagZigZag = {
-    name: 'Zig-Zag Zig-Zag',
+const superZigZag: Level = {
+    name: 'Super Zig-Zag',
     background: {
         x: 400,
         y: 300,
@@ -280,5 +280,5 @@ export const levelData: Level[] = [
     zigZag,
     threadTheNeedle,
     flappyLander,
-    zigZagZigZag,
+    // superZigZag, // moved to remote server
 ];

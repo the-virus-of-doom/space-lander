@@ -20,6 +20,7 @@
     -   [x] Out of Fuel
         -   [x] fail when no fuel and not moving
     -   [x] add restart level logic
+-   [ ] bug - momentum carries over after reset
 
 ## Art and Animations
 
@@ -51,7 +52,7 @@
 -   [x] store total extra fuel for final win screen
     -   on win, add remaining fuel to global variable that is displayed on Win screen
 -   [ ] use new main menu logo
--   [ ] tutorial level text?
+-   [ ] tutorial level text
 
 ## Level Design
 
@@ -68,11 +69,11 @@
 
 ## API
 
--   [ ] decide on what API to use
+-   [x] decide on what API to use
     -   load levels from server? (own server)
-    -   Mars time of day API? (own server)
-    -   use NASA API for weather data? (NASA)
--   [ ] implement API
+        ~~- Mars time of day API? (own server)~~
+        ~~- use NASA API for weather data? (NASA)~~
+-   [x] implement API
 
 # Post MVP
 
@@ -88,6 +89,7 @@
     -   [ ] Crashing (hit top (or sides?) on collider)
         -   add secondary collider at top (see photoshop)
     -   [ ] change lander collider to circle on crash
+    -   [ ] add limited lives per run or level
 
 -   [ ] Win Scenario
     -   [ ] Enforce being ON TOP of landing pad

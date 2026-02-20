@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PhaserGame } from '../game/phaser-game.component';
 import { MainMenu } from '../game/scenes/MainMenu';
-import { CommonModule } from '@angular/common';
+
 import { EventBus } from '../game/EventBus';
 import { Game } from '../game/scenes/Game';
 import { Win } from '../game/scenes/Win';
@@ -10,7 +10,7 @@ import { GameOver } from '../game/scenes/GameOver';
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule, PhaserGame],
+    imports: [PhaserGame],
     templateUrl: './app.component.html',
 })
 export class AppComponent implements AfterViewInit {
